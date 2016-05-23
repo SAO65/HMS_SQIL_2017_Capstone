@@ -1,0 +1,40 @@
+---
+title: "Raw Data"
+author: "Olgiati Stefano (1)"
+date: "21 May 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+(1) Author Responsible For Correspondence: University of Bergamo <www.unibg.it>, Department of Quantitative Methods, via dei Caniana 2, Bergamo (ITA) 24129; tel  +39 035 20 52 638; fax +39 035 20 52 549; email <stefano.olgiati@unibg.it>
+
+```{r echo=FALSE, results='hide'}
+library(data.table)
+```
+
+### Raw Data
+We utilized open access data from:
+
+1. the Institute for Health Metrics and Evaluation (IHME) Global Burden of Disease Study 2010 [GHDx]("http://ghdx.healthmetricsandevaluation.org/sites/default/files/record-attached-files/IHME_GBD_2010_HALE_BY_COUNTRY_1990_2010_Y2010M02D23.CSV");
+
+2. the World Health Organization’s [WHO Global Health Workforce Statistics]("http://apps.who.int/gho/athena/data/xmart.csv?target=GHO/WHS7_156,WHS7_105,WHS7_104,WHS7_108&profile=xmart&filter=COUNTRY:*;REGION:AFR;REGION:AMR;REGION:SEAR;REGION:EUR;REGION:EMR;REGION:WPR").
+
+Downloading data from the repositories
+
+```{r, cache=TRUE}
+
+# Getting raw data from the IHME Global Burden of Disease Study 2010
+fileURL.GBD <- "http://ghdx.healthdata.org/sites/default/files/record-attached-files/IHME_GBD_2010_HALE_BY_COUNTRY_1990_2010_Y2010M02D23.CSV"
+
+# Getting raw data from the WHO Global Health Workforce Statistics
+fileURL.WHO <- "http://apps.who.int/gho/athena/data/data-verbose.csv?target=GHO/HRH_26,HRH_33,HRH_28,HRH_25,HRH_27,HRH_31,HRH_29,HRH_30,HRH_32&profile=verbose&filter=COUNTRY:*"
+
+download.file(fileURL.GBD, destfile="GBD.csv", method="curl")
+download.file(fileURL.WHO, destfile="WHO.csv", method="curl")
+
+dateDownloaded <- date()
+dateDownloaded
+```
