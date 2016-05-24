@@ -56,27 +56,32 @@ Manipulating data to generate tidy datasets
 # Austria, Belgium, Bulgaria, Croatia, Republic of Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden and the UK
 
 ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL",
-          "ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR")
+          "ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR","USA")
 
-length(ISO3) == 28
-
-data.GBD.2010 <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" &
-                                DT.GBD$sex_name == "Both" & 
-                                DT.GBD$iso3 %in% ISO3 , ]
-data.GBD.2010.ordered <- data.GBD.2010[order(iso3), ]
-data.GBD.2010.ordered
+length(ISO3) == 29
 
 
 data.WHO.WF <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_33" &
                                         DT.WHO.WF$COUNTRY..CODE. %in% ISO3, ]
-data.WHO.WF.ordered <- data.WHO.WF.2010[order(COUNTRY..CODE.), ]
-data.WHO.WF.ordered
-
-df.WHO.WF <- data.frame(country=data.WHO.WF$COUNTRY..CODE., worforce=data.WHO.WF$Numeric, year=data.WHO.WF$YEAR..CODE.)
+df.WHO.spool <- data.frame(country=data.WHO.WF$COUNTRY..CODE., worforce=data.WHO.WF$Numeric, year=data.WHO.WF$YEAR..CODE.)
+df.WHO.spool
+df.WHO.WF <- df.WHO.spool[order(df.WHO.spool$country, abs(df.WHO.spool$year) ), ] 
+#sort by country and reverse of abs(year)
+df.WHO.WF <- df.WHO.WF[ !duplicated(df.WHO.WF$country), ]
 df.WHO.WF
+length(df.WHO.WF$country)
+list(df.WHO.WF$country)
 
-df_list <- split(df.WHO.WF, as.factor(df.WHO.WF$year))
-df_list
+ISO3.revised <- as.vector(df.WHO.WF$country)
+ISO3.revised
+class(ISO3.revised)
+
+
+data.GBD.2010 <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" &
+                                DT.GBD$sex_name == "Both" & 
+                                DT.GBD$iso3 %in% ISO3.revised , ]
+data.GBD.2010.ordered <- data.GBD.2010[order(iso3), ]
+data.GBD.2010.ordered
 
 
 
@@ -84,23 +89,26 @@ df_list
 data.WHO.THE.2010 <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" & 
                                         DT.WHO.THE$GHO == "WHS7_105" & 
                                         DT.WHO.THE$Numeric != "NA" & 
-                                        DT.WHO.THE$COUNTRY %in% ISO3,  ]
+                                        DT.WHO.THE$COUNTRY %in% ISO3.revised,  ]
 data.WHO.THE.2010.ordered <- data.WHO.THE.2010[order(COUNTRY), ]
 data.WHO.THE.2010.ordered
 
 
-data.2010 <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, le_ui = data.GBD.2010.ordered$le_ui, hale=data.GBD.2010.ordered$hale, hale_ui = data.GBD.2010.ordered$hale_ui, the=data.WHO.2010.ordered$Numeric)
+intermediate.data <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, hale=data.GBD.2010.ordered$hale, the=data.WHO.THE.2010.ordered$Numeric, worforce=df.WHO.WF$worforce)
 
+intermediate.data
 
-# Years Lived with Disease in G20 Countries for 1990 - 2010
-yld.1990 <- data.1990$le - data.1990$hale
-yld.2010 <- data.2010$le - data.2010$hale
+# Years Lived with Disability
+yld <- intermediate.data$le - intermediate.data$hale
+yld
 
 # Tidy Dataset
-tidy.data <- data.frame(country=data.2010$country, the_1995=data.1990$the, the_2010=data.2010$the, le_1990=data.1990$le,  le_2010=data.2010$le, le_ui_2010=data.2010$le_ui, hale_ui_2010=data.2010$hale_ui, hale_1990 = data.1990$hale, hale_2010 = data.2010$hale, yld_1990=yld.1990, yld_2010=yld.2010)
+tidy.data <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, hale=data.GBD.2010.ordered$hale, yld=yld, the=data.WHO.THE.2010.ordered$Numeric, worforce=df.WHO.WF$worforce)
+
+tidy.data
 
 attach(tidy.data)
 
 # Saving Tidy Dataset to .csv file
-write.csv(tidy.data, "YLDOutput.csv")
+write.csv(tidy.data, "Workforce_Output.csv")
 ```
