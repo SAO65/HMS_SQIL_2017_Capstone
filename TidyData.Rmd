@@ -11,26 +11,37 @@ knitr::opts_chunk$set(echo = TRUE)
 
 (1) Author Responsible For Correspondence: University of Bergamo <www.unibg.it>, Department of Quantitative Methods, via dei Caniana 2, Bergamo (ITA) 24129; tel  +39 035 20 52 638; fax +39 035 20 52 549; email <stefano.olgiati@unibg.it>
 
-```{r echo=FALSE, results='hide'}
-library(data.table)
-```
-
 # Reading raw data in .csv format
 
-````{r}
+```{r echo=FALSE}
+library(data.table)
+
 raw.data.GBD <- read.csv("GBD.csv")
-raw.data.WHO <- read.csv("WHO.csv")
+raw.data.WHO.WF <- read.csv("WHO_WF.csv")
+raw.data.WHO.THE <- read.csv("WHO_THE.csv")
+
 names(raw.data.GBD)
-names(raw.data.WHO)
+names(raw.data.WHO.WF)
+names(raw.data.WHO.THE)
+
+head(raw.data.GBD)
+head(raw.data.WHO.WF)
+head(raw.data.WHO.THE)
+
+
 dim(raw.data.GBD)
-dim(raw.data.WHO)
+dim(raw.data.WHO.WF)
+dim(raw.data.WHO.THE)
+
 
 # Data Tables
 attach(raw.data.GBD)
-attach(raw.data.WHO)
+attach(raw.data.WHO.WF)
+attach(raw.data.WHO.THE)
 
 DT.GBD <- data.table(raw.data.GBD)
-DT.WHO <- data.table(raw.data.WHO)
+DT.WHO.WF <- data.table(raw.data.WHO.WF)
+DT.WHO.THE <- data.table(raw.data.WHO.THE)
 
 tables()
 ```
@@ -40,21 +51,42 @@ tables()
 
 Manipulating data to generate tidy datasets
 ```{r}
-# ISO3 codes of EU Countries
+# ISO3 codes of EU-28 Countries
 
-ISO3 <- c("ARG", "AUS", "BRA", "CAN","CHN","IND","IDN","JPN","MEX","RUS","SAU","ZAF","KOR","TUR","USA", "AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR")
+# Austria, Belgium, Bulgaria, Croatia, Republic of Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden and the UK
 
-length(ISO3)
+ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL",
+          "ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR")
 
-data.GBD <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" & DT.GBD$sex_name == "Both" & DT.GBD$iso3 %in% ISO3 , ]
+length(ISO3) == 28
+
+data.GBD.2010 <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" & DT.GBD$sex_name == "Both" & DT.GBD$iso3 %in% ISO3 , ]
 data.GBD.2010.ordered <- data.GBD.2010[order(iso3), ]
 data.GBD.2010.ordered
 
-data.WHO <- DT.WHO[DT.WHO$YEAR == "1995" & DT.WHO$GHO == "WHS7_105" & DT.WHO$Numeric != "NA" & DT.WHO$COUNTRY %in% ISO3,  ]
-data.WHO.1995.ordered <- data.WHO.1995[order(COUNTRY), ]
-data.WHO.1995.ordered
 
-data.1990 <- data.frame(country=data.GBD.1990.ordered$iso3, le=data.GBD.1990.ordered$le, hale=data.GBD.1990.ordered$hale, the=data.WHO.1995.ordered$Numeric)
+
+
+
+
+
+data.WHO.WF.2010 <- DT.WHO.WF[DT.WHO.WF$YEAR..CODE. == "2003" & DT.WHO.WF$GHO..CODE. == "HRH_33" & DT.WHO.WF$Numeric != "NA" & DT.WHO.WF$COUNTRY..CODE. %in% ISO3,  ]
+data.WHO.WF.2010
+
+data.WHO.WF.2010.ordered <- data.WHO.WF.2010[order(COUNTRY..CODE.), ]
+data.WHO.WF.2010.ordered
+
+
+
+
+
+
+
+
+data.WHO.THE.2010 <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" & DT.WHO.THE$GHO == "WHS7_105" & DT.WHO.THE$Numeric != "NA" & DT.WHO.THE$COUNTRY %in% ISO3,  ]
+data.WHO.THE.2010.ordered <- data.WHO.THE.2010[order(COUNTRY), ]
+data.WHO.THE.2010.ordered
+
 
 data.2010 <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, le_ui = data.GBD.2010.ordered$le_ui, hale=data.GBD.2010.ordered$hale, hale_ui = data.GBD.2010.ordered$hale_ui, the=data.WHO.2010.ordered$Numeric)
 

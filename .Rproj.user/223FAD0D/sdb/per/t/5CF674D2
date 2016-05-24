@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Raw Data\"\nauthor: \"Olgiati Stefano (1)\"\ndate: \"21 May 2016\"\noutput: html_document\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```\n\n(1) Author Responsible For Correspondence: University of Bergamo <www.unibg.it>, Department of Quantitative Methods, via dei Caniana 2, Bergamo (ITA) 24129; tel  +39 035 20 52 638; fax +39 035 20 52 549; email <stefano.olgiati@unibg.it>\n\n# Reading raw data in .csv format\n\n```{r echo=FALSE}\nlibrary(data.table)\n\nraw.data.GBD <- read.csv(\"GBD.csv\")\nraw.data.WHO.WF <- read.csv(\"WHO_WF.csv\")\nraw.data.WHO.THE <- read.csv(\"WHO_THE.csv\")\n\nnames(raw.data.GBD)\nnames(raw.data.WHO.WF)\nnames(raw.data.WHO.THE)\n\nhead(raw.data.GBD)\nhead(raw.data.WHO.WF)\nhead(raw.data.WHO.THE)\n\n\ndim(raw.data.GBD)\ndim(raw.data.WHO.WF)\ndim(raw.data.WHO.THE)\n\n\n# Data Tables\nattach(raw.data.GBD)\nattach(raw.data.WHO.WF)\nattach(raw.data.WHO.THE)\n\nDT.GBD <- data.table(raw.data.GBD)\nDT.WHO.WF <- data.table(raw.data.WHO.WF)\nDT.WHO.THE <- data.table(raw.data.WHO.THE)\n\ntables()\n```\n\n\n### Tidy Data Set\n\nManipulating data to generate tidy datasets\n```{r}\n# ISO3 codes of EU-28 Countries\n\n# Austria, Belgium, Bulgaria, Croatia, Republic of Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden and the UK\n\nISO3 <- c(\"AUT\",\"BEL\",\"BGR\",\"HRV\",\"CYP\",\"CZE\",\"DNK\",\"EST\",\"FIN\",\"FRA\",\"DEU\",\"GRC\",\"HUN\",\"IRL\",\n          \"ITA\",\"LVA\",\"LTU\",\"LUX\",\"MLT\",\"NLD\",\"POL\",\"PRT\",\"ROU\",\"SVK\",\"SVN\",\"ESP\",\"SWE\",\"GBR\")\n\nlength(ISO3) == 28\n\ndata.GBD.2010 <- DT.GBD[DT.GBD$year == \"2010\" & DT.GBD$age_name == \"0-1 years\" & DT.GBD$sex_name == \"Both\" & DT.GBD$iso3 %in% ISO3 , ]\ndata.GBD.2010.ordered <- data.GBD.2010[order(iso3), ]\ndata.GBD.2010.ordered\n\n\n\n\n\n\n\ndata.WHO.WF.2010 <- DT.WHO.WF[DT.WHO.WF$YEAR..CODE. == \"2003\" & DT.WHO.WF$GHO..CODE. == \"HRH_33\" & DT.WHO.WF$Numeric != \"NA\" & DT.WHO.WF$COUNTRY..CODE. %in% ISO3,  ]\ndata.WHO.WF.2010\n\ndata.WHO.WF.2010.ordered <- data.WHO.WF.2010[order(COUNTRY..CODE.), ]\ndata.WHO.WF.2010.ordered\n\n\n\n\n\n\n\n\ndata.WHO.THE.2010 <- DT.WHO.THE[DT.WHO.THE$YEAR == \"2010\" & DT.WHO.THE$GHO == \"WHS7_105\" & DT.WHO.THE$Numeric != \"NA\" & DT.WHO.THE$COUNTRY %in% ISO3,  ]\ndata.WHO.THE.2010.ordered <- data.WHO.THE.2010[order(COUNTRY), ]\ndata.WHO.THE.2010.ordered\n\n\ndata.2010 <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, le_ui = data.GBD.2010.ordered$le_ui, hale=data.GBD.2010.ordered$hale, hale_ui = data.GBD.2010.ordered$hale_ui, the=data.WHO.2010.ordered$Numeric)\n\n\n# Years Lived with Disease in G20 Countries for 1990 - 2010\nyld.1990 <- data.1990$le - data.1990$hale\nyld.2010 <- data.2010$le - data.2010$hale\n\n# Tidy Dataset\ntidy.data <- data.frame(country=data.2010$country, the_1995=data.1990$the, the_2010=data.2010$the, le_1990=data.1990$le,  le_2010=data.2010$le, le_ui_2010=data.2010$le_ui, hale_ui_2010=data.2010$hale_ui, hale_1990 = data.1990$hale, hale_2010 = data.2010$hale, yld_1990=yld.1990, yld_2010=yld.2010)\n\nattach(tidy.data)\n\n# Saving Tidy Dataset to .csv file\nwrite.csv(tidy.data, \"YLDOutput.csv\")\n```",
+    "created" : 1464077387172.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1238510232",
+    "id" : "5CF674D2",
+    "lastKnownWriteTime" : 1464078297,
+    "last_content_update" : 1464078297220,
+    "path" : "~/Desktop/Capstone/HMS_SQIL_2017_Capstone/TidyData.Rmd",
+    "project_path" : "TidyData.Rmd",
+    "properties" : {
+        "source_window_id" : ""
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
