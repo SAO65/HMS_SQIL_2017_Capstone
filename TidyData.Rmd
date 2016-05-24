@@ -60,30 +60,31 @@ ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC
 
 length(ISO3) == 28
 
-data.GBD.2010 <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" & DT.GBD$sex_name == "Both" & DT.GBD$iso3 %in% ISO3 , ]
+data.GBD.2010 <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" &
+                                DT.GBD$sex_name == "Both" & 
+                                DT.GBD$iso3 %in% ISO3 , ]
 data.GBD.2010.ordered <- data.GBD.2010[order(iso3), ]
 data.GBD.2010.ordered
 
 
+data.WHO.WF <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_33" &
+                                        DT.WHO.WF$COUNTRY..CODE. %in% ISO3, ]
+data.WHO.WF.ordered <- data.WHO.WF.2010[order(COUNTRY..CODE.), ]
+data.WHO.WF.ordered
+
+df.WHO.WF <- data.frame(country=data.WHO.WF$COUNTRY..CODE., worforce=data.WHO.WF$Numeric, year=data.WHO.WF$YEAR..CODE.)
+df.WHO.WF
+
+df_list <- split(df.WHO.WF, as.factor(df.WHO.WF$year))
+df_list
 
 
 
 
-
-data.WHO.WF.2010 <- DT.WHO.WF[DT.WHO.WF$YEAR..CODE. == "2003" & DT.WHO.WF$GHO..CODE. == "HRH_33" & DT.WHO.WF$Numeric != "NA" & DT.WHO.WF$COUNTRY..CODE. %in% ISO3,  ]
-data.WHO.WF.2010
-
-data.WHO.WF.2010.ordered <- data.WHO.WF.2010[order(COUNTRY..CODE.), ]
-data.WHO.WF.2010.ordered
-
-
-
-
-
-
-
-
-data.WHO.THE.2010 <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" & DT.WHO.THE$GHO == "WHS7_105" & DT.WHO.THE$Numeric != "NA" & DT.WHO.THE$COUNTRY %in% ISO3,  ]
+data.WHO.THE.2010 <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" & 
+                                        DT.WHO.THE$GHO == "WHS7_105" & 
+                                        DT.WHO.THE$Numeric != "NA" & 
+                                        DT.WHO.THE$COUNTRY %in% ISO3,  ]
 data.WHO.THE.2010.ordered <- data.WHO.THE.2010[order(COUNTRY), ]
 data.WHO.THE.2010.ordered
 
