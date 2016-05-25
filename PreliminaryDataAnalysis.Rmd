@@ -1,0 +1,109 @@
+---
+title: "Preliminary Data Analysis"
+author: "Olgiati Stefano"
+date: "25 May 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 
+
+# Reading tidy data
+
+```{r echo=FALSE}
+library(data.table)
+
+data <- read.csv("Workforce_Output_EU.csv")
+
+head(data)
+
+attach(data)
+```
+
+
+```{r}
+ID <- "ITA"
+
+```
+
+
+
+```{r}
+# Strip Charts
+par(mfrow=c(1,2))
+
+strip.data.1 <- data.frame("Nurses"=rn, "Physicians"= md)
+stripchart(strip.data.1, 
+           vertical=TRUE,
+           col=c("black", "skyblue"),
+           cex=1.5,
+           lty = "solid", 
+           lwd = 2,
+           method="jitter", 
+           main="EU Workforce",
+           ylab="Density (per 1000 population)")
+abline(h=c(median(rn), median(md)),col=c("black", "skyblue"),
+           lty = "solid", 
+           lwd = 2) 
+points(c(data$rn[data$country == ID], data$md[data$country == ID]), pch=22, col="red", cex = 2, lty = "solid", lwd = 2)
+text(c(data$rn[data$country == ID], data$md[data$country == ID]), labels=ID, cex= 1.5, pos=c(4,2))
+summary(strip.data.1)
+
+strip.data.2 <- data.frame("THE"=the)
+stripchart(strip.data.2, 
+           vertical=TRUE,
+           col=c("black"),
+           cex=1.5,
+           lty = "solid", 
+           lwd = 2,
+           method="jitter", 
+           main="EU Per Capita \n Total Health Expenditure",
+           ylab="USD Int PPP")
+abline(h=c(median(the)),col=c("black"),
+           lty = "solid", 
+           lwd = 2)
+points(c(data$the[data$country == ID]), pch=22, col="red", cex = 2, lty = "solid", lwd = 2)
+text(c(data$the[data$country == ID]), labels=ID, cex= 1.5, pos=c(4,2))
+summary(strip.data.2)
+
+par(mfrow=c(1,2))
+
+strip.data.3 <- data.frame("Nurses"=CareX)
+stripchart(strip.data.3, 
+           vertical=TRUE,
+           col=c("black", "skyblue"),
+           cex=1.5,
+           lty = "solid", 
+           lwd = 2,
+           method="jitter", 
+           main="EU Workforce",
+           ylab="Density (per 1000 population)")
+abline(h=c(median(CareX)),col=c("black", "skyblue"),
+           lty = "solid", 
+           lwd = 2) 
+points(c(data$CareX[data$country == ID]), pch=22, col="red", cex = 2, lty = "solid", lwd = 2)
+text(c(data$CareX[data$country == ID]), labels=ID, cex= 1.5, pos=c(4,2))
+summary(strip.data.3)
+
+strip.data.4 <- data.frame("Nurses"=CareV)
+stripchart(strip.data.4, 
+           vertical=TRUE,
+           col=c("black", "skyblue"),
+           cex=1.5,
+           lty = "solid", 
+           lwd = 2,
+           method="jitter", 
+           main="EU Workforce",
+           ylab="Density (per 1000 population)")
+abline(h=c(median(CareV)),col=c("black", "skyblue"),
+           lty = "solid", 
+           lwd = 2) 
+points(c(data$CareV[data$country == ID]), pch=22, col="red", cex = 2, lty = "solid", lwd = 2)
+text(c(data$CareV[data$country == ID]), labels=ID, cex= 1.5, pos=c(4,2))
+summary(strip.data.4)
+
+```
+

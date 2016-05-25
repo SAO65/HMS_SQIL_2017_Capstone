@@ -1,5 +1,5 @@
 ---
-title: "Raw Data"
+title: "Tidy Data"
 author: "Olgiati Stefano (1)"
 date: "21 May 2016"
 output: html_document
@@ -93,15 +93,18 @@ df.WHO.WF
 
 data.GBD <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" &
                                 DT.GBD$sex_name == "Both", ]
-data.GBD.2010.ordered <- data.GBD.2010[order(iso3), ]
-data.GBD.2010.ordered
-df.GBD <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, hale=data.GBD.2010.ordered$hale)
+data.GBD.ordered <- data.GBD[order(iso3), ]
+data.GBD.ordered
+df.GBD <- data.frame(country=data.GBD.ordered$iso3, le=data.GBD.ordered$le, hale=data.GBD.ordered$hale)
 df.GBD
 
 
-data.WHO.THE.2010.ordered <- data.WHO.THE.2010[order(COUNTRY), ]
-data.WHO.THE.2010.ordered
-df.WHO.THE <- data.frame(country=data.WHO.THE.2010.ordered$COUNTRY, the=data.WHO.THE.2010.ordered$Numeric)
+data.WHO.THE <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" & 
+                                        DT.WHO.THE$GHO == "WHS7_105" & 
+                                        DT.WHO.THE$Numeric != "NA",  ]
+data.WHO.THE.ordered <- data.WHO.THE[order(COUNTRY), ]
+data.WHO.THE.ordered
+df.WHO.THE <- data.frame(country=data.WHO.THE.ordered$COUNTRY, the=data.WHO.THE.ordered$Numeric)
 df.WHO.THE
 
 
@@ -115,8 +118,12 @@ intermediate.data
 yld <- intermediate.data$le - intermediate.data$hale
 yld
 
+# Care Index amd Care Value
+CareX <- rn / md
+CareV <- the / CareX
+
 # Tidy Dataset
-tidy.data <- data.frame(intermediate.data, yld)
+tidy.data <- data.frame(intermediate.data, yld, CareX, CareV)
 tidy.data
 
 attach(tidy.data)
@@ -125,11 +132,4 @@ attach(tidy.data)
 write.csv(tidy.data, "Workforce_Output_EU.csv")
 ```
 
-```{r}
-x <- rn / md
-plot(le, yld)
-plot(yld, x)
-plot(x, the)
-
-```
 

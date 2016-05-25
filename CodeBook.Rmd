@@ -1,0 +1,47 @@
+---
+title: "Code Book"
+author: "Olgiati Stefano"
+date: "25 May 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Code Book
+
+<span style="color: red">
+__NOTICE TO FELLOW RESEARCHERS:___ 
+___THE WHO AS OF May 24, 2016, HAS UPDATED SOME DATABASES UTILIZED AS RAW DATA FOR THE TIDY DATASETS AND THE STATISTICAL INFERENCE. ACCORDINGLY, AFTER RUNNING THE PRESENT PROGRAM SOME OF THE NUMERIC FINDINGS MAY SLIGHTLY DIFFER  FROM THE FINDINGS REPORTED. THE AUTHORS HAVE CHOSEN NOT TO "FREEZE" THE ORIGINAL DATA SOURCE BUT TO ALLOW AUTOMATIC UPDATING OF THE RESEARCH FINDINGS IN THE HTML DOCUMENT. THIS CAN BE VERIFIED BY THE SUBSEQUENT UPDATES IN THE OA GITHUB REPOSITORY. THIS IS A FURTHER ADVANTAGE IN TERMS OF TRANSPARENCY OF RESEARCH REPRODUCIBILITY;___
+
+__THANK YOU. THE AUTHORS__
+</span>
+
+
+### Raw Data
+We utilized open access data from:
+
+1. the Institute for Health Metrics and Evaluation (IHME) Global Burden of Disease Study 2010 [GHDx]("http://ghdx.healthmetricsandevaluation.org/sites/default/files/record-attached-files/IHME_GBD_2010_HALE_BY_COUNTRY_1990_2010_Y2010M02D23.CSV");
+
+2. the World Health Organization’s [Data Repository on Health Expenditure]("http://apps.who.int/gho/athena/data/xmart.csv?target=GHO/WHS7_156,WHS7_105,WHS7_104,WHS7_108&profile=xmart&filter=COUNTRY:*;REGION:AFR;REGION:AMR;REGION:SEAR;REGION:EUR;REGION:EMR;REGION:WPR");
+
+3. the World Health Organization’s [WHO Global Health Workforce Statistics]("http://apps.who.int/gho/athena/data/xmart.csv?target=GHO/WHS7_156,WHS7_105,WHS7_104,WHS7_108&profile=xmart&filter=COUNTRY:*;REGION:AFR;REGION:AMR;REGION:SEAR;REGION:EUR;REGION:EMR;REGION:WPR").
+
+
+### Code Book
+The following variables and definitions were adopted when extracting the tidy data set from the raw data:
+
+* Life Expectancy at birth: Life Expectancy at birth is the average number of years that a person can be expected to live from age 0-1;
+
+* Health Adjusted Life Expectancy (HALE) at birth: Healthy Life Expectancy at birth is the average number of years that a person can be expected to live in “full health” from age 0-1, by taking into account years lived in less than full health with disease and/or non-fatal injury ;
+
+* Years Lived with Disability (YLD): The Years Lived with Disability is the difference between LE and HALE, where LE is always greater than or equal to HALE. It is equivalent to the number of years that people live with a health condition or its consequences or in less than full health with disease and/or non-fatal injury;
+
+* Total Health Expenditure (THE): WHS7_105 Per capita total expenditure on health (PPP int.$) includes public (government, external resources for health from international programs and social security) and private expenditure (private pre-paid plans and out-of-pocket). For the purpose of international comparisons, THE is expressed in International Purchase Power Parity United States Dollars (USD PPP) which, according to the World Bank, is the number of units of a country’s currency required to buy the same amounts of goods and services in the domestic market as one US Dollar would buy in the United States.
+
+* Technical Notes - Global Health Workforce Statistics database
+The data presented in the Global Health Workforce Statistics database are compiled from several sources such as national population censuses, labour force and employment surveys, national statistical products ,and routine administrative information systems. As a result, considerable variability remains across countries in the coverage, quality and reference year of the original data. In general, the denominator data for health workforce density (i.e. national population estimates) were obtained from the United Nations Population Division's World population prospects database. In some cases, the official report provided only workforce density indicators, from which estimates of the stock were then calculated. The data presented here are of two types: aggregated and disaggregated. Both data sets provide information on the stock (absolute numbers) of health workers. The aggregated set also includes data on workforce density (per 1000 population). Data included in the aggregated set tend to be more complete. The classification of health workers used is based on criteria for vocational education and training, regulation of health professions, and activities and tasks of jobs, i.e. a framework for categorizing key workforce variables according to shared characteristics. The WHO framework largely draws on the latest revisions to the internationally standardized classification systems of the International Labour Organization (International Standard Classification of Occupations), United Nations Educational, Scientific and Cultural Organization (International Standard Classification of Education), and the United Nations Statistics Division (International Standard Industrial Classification of All Economic Activities). Depending on the nature of each country's situation and the means of measurement, data are available for up to 9 categories of health workers in the aggregated set, and up to 18 categories in the disaggregated set. The latter essentially reflects attempts to better distinguish some subgroups of the workforce according to assumed differences in skill level and skill specialization.In the aggregated data set, the health workforce is classified according to the following 9 broad categories: 
+
+** Physicians: Includes generalist medical practitioners and specialist medical practitioners.
+** Nursing and midwifery personnel: Includes nursing professionals, midwifery professionals, nursing associate professionals and midwifery associate professionals. Traditional midwives are not classified here, but as community/traditional health workers.
