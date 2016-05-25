@@ -1,5 +1,5 @@
 ---
-title: "Raw Data"
+title: "Tidy Data"
 author: "Olgiati Stefano (1)"
 date: "21 May 2016"
 output: html_document
@@ -51,30 +51,18 @@ tables()
 
 Manipulating data to generate tidy datasets
 ```{r}
-# ISO3 codes of EU-28 Countries
-
-# Austria, Belgium, Bulgaria, Croatia, Republic of Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden and the UK
-
-ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL",
-          "ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR","USA")
-
-length(ISO3) == 29
-
-
-data.WHO.WF <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_33" &
-                                        DT.WHO.WF$COUNTRY..CODE. %in% ISO3, ]
+data.WHO.WF <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_26", ]
 df.WHO.spool <- data.frame(country=data.WHO.WF$COUNTRY..CODE., worforce=data.WHO.WF$Numeric, year=data.WHO.WF$YEAR..CODE.)
 df.WHO.spool
 df.WHO.WF <- df.WHO.spool[order(df.WHO.spool$country, abs(df.WHO.spool$year) ), ] 
 #sort by country and reverse of abs(year)
 df.WHO.WF <- df.WHO.WF[ !duplicated(df.WHO.WF$country), ]
-df.WHO.WF
-length(df.WHO.WF$country)
-list(df.WHO.WF$country)
-
 ISO3.revised <- as.vector(df.WHO.WF$country)
 ISO3.revised
 class(ISO3.revised)
+length(df.WHO.WF$country)
+list(df.WHO.WF$country)
+df.WHO.WF
 
 
 data.GBD.2010 <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" &
@@ -82,8 +70,8 @@ data.GBD.2010 <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" &
                                 DT.GBD$iso3 %in% ISO3.revised , ]
 data.GBD.2010.ordered <- data.GBD.2010[order(iso3), ]
 data.GBD.2010.ordered
-
-
+df.GBD <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, hale=data.GBD.2010.ordered$hale)
+df.GBD
 
 
 data.WHO.THE.2010 <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" & 
@@ -92,10 +80,13 @@ data.WHO.THE.2010 <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" &
                                         DT.WHO.THE$COUNTRY %in% ISO3.revised,  ]
 data.WHO.THE.2010.ordered <- data.WHO.THE.2010[order(COUNTRY), ]
 data.WHO.THE.2010.ordered
+df.WHO.THE <- data.frame(country=data.WHO.THE.2010.ordered$COUNTRY, the=data.WHO.THE.2010.ordered$Numeric)
+df.WHO.THE
 
+df.merge.1 <- merge(df.WHO.WF, df.GBD, all.x=F, by="country")
+df.merge.1
 
-intermediate.data <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, hale=data.GBD.2010.ordered$hale, the=data.WHO.THE.2010.ordered$Numeric, worforce=df.WHO.WF$worforce)
-
+intermediate.data <- merge(df.merge.1, df.WHO.THE, all.x=F, by="country")
 intermediate.data
 
 # Years Lived with Disability
@@ -103,12 +94,21 @@ yld <- intermediate.data$le - intermediate.data$hale
 yld
 
 # Tidy Dataset
-tidy.data <- data.frame(country=data.GBD.2010.ordered$iso3, le=data.GBD.2010.ordered$le, hale=data.GBD.2010.ordered$hale, yld=yld, the=data.WHO.THE.2010.ordered$Numeric, worforce=df.WHO.WF$worforce)
-
+tidy.data <- data.frame(intermediate.data, yld)
 tidy.data
 
 attach(tidy.data)
 
 # Saving Tidy Dataset to .csv file
-write.csv(tidy.data, "Workforce_Output.csv")
+write.csv(tidy.data, "Workforce_Output_World.csv")
 ```
+
+
+```{r}
+plot(le, yld)
+plot(yld, worforce)
+plot(worforce, the)
+
+```
+
+
