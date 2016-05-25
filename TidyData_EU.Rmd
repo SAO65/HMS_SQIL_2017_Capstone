@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Reading raw data in .csv format
 
-```{r echo=FALSE}
+```{r}
 library(data.table)
 
 raw.data.GBD <- read.csv("GBD.csv")
@@ -114,16 +114,21 @@ df.merge.1
 intermediate.data <- merge(df.merge.1, df.WHO.WF, all.x=F, all.y=FALSE, by="country")
 intermediate.data
 
-# Years Lived with Disability
+# Years Lived with Disability, Nursing density and Physicians density
 yld <- intermediate.data$le - intermediate.data$hale
-yld
+rn <- intermediate.data$rn
+md <- intermediate.data$md
+the <- intermediate.data$the
 
-# Care Index amd Care Value
-CareX <- rn / md
-CareV <- the / CareX
+# Care Intensity, Care Index amd Care Value
+CareI <- rn / md
+TreatmentI <- md / yld
+CareX <- CareI * TreatmentI # (rn / md) * (md / yld) = rn / yld
+CareV <- the * CareX
+
 
 # Tidy Dataset
-tidy.data <- data.frame(intermediate.data, yld, CareX, CareV)
+tidy.data <- data.frame(intermediate.data, yld, CareI, TreatmentI, CareX, CareV)
 tidy.data
 
 attach(tidy.data)

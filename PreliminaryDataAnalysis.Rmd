@@ -9,7 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# 
 
 # Reading tidy data
 
@@ -29,10 +28,25 @@ ID <- "ITA"
 
 ```
 
+# Care Intensity, Care Index amd Care Value
 
+CareI <- rn / md
+TreatmentI <- md / yld
+CareX <- CareI * TreatmentI <- (rn / md) * (md / yld) = rn / yld
+CareV <- the * CareX
+
+# Preliminary Plots
 
 ```{r}
+plot(le, yld, col="skyblue", cex=1.5, lty = "solid", lwd = 2)
+plot(yld, the)
+
+```
+
+
+
 # Strip Charts
+```{r}
 par(mfrow=c(1,2))
 
 strip.data.1 <- data.frame("Nurses"=rn, "Physicians"= md)
