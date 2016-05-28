@@ -60,6 +60,8 @@ ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC
 
 length(ISO3) == 28
 
+output_year <- "2010"
+
 
 data.WHO.WF.RN <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_33" &
                                         DT.WHO.WF$COUNTRY..CODE. %in% ISO3, ]
@@ -91,7 +93,8 @@ df.WHO.WF <- merge(df.WHO.WF.RN, df.WHO.WF.MD, all.x=FALSE, all.y=FALSE, by="cou
 df.WHO.WF
 
 head(data.GBD)
-data.GBD <- DT.GBD[DT.GBD$year == "2010" & DT.GBD$age_name == "0-1 years" &
+data.GBD <- DT.GBD[DT.GBD$year == output_year & 
+                                DT.GBD$age_name == "0-1 years" &
                                 DT.GBD$sex_name == "Both" &
                                 DT.GBD$iso3 %in% ISO3, ]
 df.GBD <- data.frame(country.EU=data.GBD$iso3, le.EU=data.GBD$le, hale.EU=data.GBD$hale)
@@ -125,13 +128,15 @@ CareV.EU <- the.EU * CareX.EU
 
 
 # Tidy Dataset
-tidy.data.EU <- data.frame(intermediate.data, yld.EU, CareI.EU, TreatmentI.EU, CareX.EU, CareV.EU)
+tidy.data.EU <- data.frame(output_year=output_year, intermediate.data, yld.EU, CareI.EU, TreatmentI.EU, CareX.EU, CareV.EU)
 tidy.data.EU
 
 attach(tidy.data.EU)
 
 # Saving Tidy Dataset to .csv file
-write.csv(tidy.data.EU, "Workforce_Output_EU.csv")
+file_name <- paste("Output_EU_", output_year, ".csv", sep="" )
+file_name
+write.csv(tidy.data.EU, file_name)
 ```
 
 
