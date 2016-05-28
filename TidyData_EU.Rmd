@@ -92,7 +92,6 @@ list(df.WHO.WF.MD$country.EU)
 df.WHO.WF <- merge(df.WHO.WF.RN, df.WHO.WF.MD, all.x=FALSE, all.y=FALSE, by="country.EU")
 df.WHO.WF
 
-head(data.GBD)
 data.GBD <- DT.GBD[DT.GBD$year == output_year & 
                                 DT.GBD$age_name == "0-1 years" &
                                 DT.GBD$sex_name == "Both" &
