@@ -61,7 +61,15 @@ ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DROW","GR
 
 length(ISO3) == 28
 
-output_year <- "2010"
+output_year <- "1990"
+output_year_THE <- if (output_year == "1990") {
+        print("1995")
+} else {
+        print("2010")
+        }
+
+output_year
+output_year_THE
 
 ```
 
@@ -106,7 +114,7 @@ data.GBD <- DT.GBD[DT.GBD$year == output_year &
 df.GBD <- data.frame(country=data.GBD$iso3, le=data.GBD$le, hale=data.GBD$hale)
 df.GBD
 
-data.WHO.THE <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" & 
+data.WHO.THE <- DT.WHO.THE[DT.WHO.THE$YEAR == output_year_THE & 
                                         DT.WHO.THE$GHO == "WHS7_105" & 
                                         DT.WHO.THE$Numeric != "NA"& !
                                         DT.WHO.THE$COUNTRY %in% ISO3,  ]
