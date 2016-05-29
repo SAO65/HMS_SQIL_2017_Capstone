@@ -49,93 +49,88 @@ tables()
 
 ### Tidy Data Set
 
-Manipulating data to generate tidy datasets
+Input parameters
+
 ```{r}
 # ISO3 codes of EU-28 Countries
 
 # Austria, Belgium, Bulgaria, Croatia, Republic of Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden and the UK
 
-ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL",
-          "ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR")
+ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR")
 
 length(ISO3) == 28
 
 output_year <- "2010"
+```
 
 
+
+Manipulating data to generate tidy datasets
+
+```{r}
 data.WHO.WF.RN <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_33" &
                                         DT.WHO.WF$COUNTRY..CODE. %in% ISO3, ]
 data.WHO.WF.RN
-df.WHO.RN.spool <- data.frame(country.EU=data.WHO.WF.RN$COUNTRY..CODE., rn.EU=data.WHO.WF.RN$Numeric, year=data.WHO.WF.RN$YEAR..CODE.)
+df.WHO.RN.spool <- data.frame(country=data.WHO.WF.RN$COUNTRY..CODE., rn=data.WHO.WF.RN$Numeric, year=data.WHO.WF.RN$YEAR..CODE.)
 df.WHO.RN.spool
-df.WHO.WF.RN <- df.WHO.RN.spool[order(df.WHO.RN.spool$country.EU, abs(df.WHO.RN.spool$year) ), ] 
+df.WHO.WF.RN <- df.WHO.RN.spool[order(df.WHO.RN.spool$country, abs(df.WHO.RN.spool$year) ), ] 
 #sort by country and reverse of abs(year)
-df.WHO.WF.RN <- df.WHO.WF.RN[ !duplicated(df.WHO.WF.RN$country.EU), ]
+df.WHO.WF.RN <- df.WHO.WF.RN[ !duplicated(df.WHO.WF.RN$country), ]
 df.WHO.WF.RN
-length(df.WHO.WF.RN$country.EU)
-list(df.WHO.WF.RN$country.EU)
+length(df.WHO.WF.RN$country)
+list(df.WHO.WF.RN$country)
 
 
 data.WHO.WF.MD <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_26" &
                                         DT.WHO.WF$COUNTRY..CODE. %in% ISO3, ]
 data.WHO.WF.MD
-df.WHO.MD.spool <- data.frame(country.EU=data.WHO.WF.MD$COUNTRY..CODE., md.EU=data.WHO.WF.MD$Numeric, year=data.WHO.WF.MD$YEAR..CODE.)
+df.WHO.MD.spool <- data.frame(country=data.WHO.WF.MD$COUNTRY..CODE., md=data.WHO.WF.MD$Numeric, year=data.WHO.WF.MD$YEAR..CODE.)
 df.WHO.MD.spool
-df.WHO.WF.MD <- df.WHO.MD.spool[order(df.WHO.MD.spool$country.EU, abs(df.WHO.MD.spool$year) ), ] 
+df.WHO.WF.MD <- df.WHO.MD.spool[order(df.WHO.MD.spool$country, abs(df.WHO.MD.spool$year) ), ] 
 #sort by country and reverse of abs(year)
-df.WHO.WF.MD <- df.WHO.WF.MD[ !duplicated(df.WHO.WF.MD$country.EU), ]
+df.WHO.WF.MD <- df.WHO.WF.MD[ !duplicated(df.WHO.WF.MD$country), ]
 df.WHO.WF.MD
-length(df.WHO.WF.MD$country.EU)
-list(df.WHO.WF.MD$country.EU)
+length(df.WHO.WF.MD$country)
+list(df.WHO.WF.MD$country)
 
 
-df.WHO.WF <- merge(df.WHO.WF.RN, df.WHO.WF.MD, all.x=FALSE, all.y=FALSE, by="country.EU")
+df.WHO.WF <- merge(df.WHO.WF.RN, df.WHO.WF.MD, all.x=FALSE, all.y=FALSE, by="country")
 df.WHO.WF
 
 data.GBD <- DT.GBD[DT.GBD$year == output_year & 
                                 DT.GBD$age_name == "0-1 years" &
                                 DT.GBD$sex_name == "Both" &
                                 DT.GBD$iso3 %in% ISO3, ]
-df.GBD <- data.frame(country.EU=data.GBD$iso3, le.EU=data.GBD$le, hale.EU=data.GBD$hale)
+df.GBD <- data.frame(country=data.GBD$iso3, le=data.GBD$le, hale=data.GBD$hale)
 df.GBD
 
 data.WHO.THE <- DT.WHO.THE[DT.WHO.THE$YEAR == "2010" & 
                                         DT.WHO.THE$GHO == "WHS7_105" & 
                                         DT.WHO.THE$Numeric != "NA"&
                                         DT.WHO.THE$COUNTRY %in% ISO3,  ]
-df.WHO.THE <- data.frame(country.EU=data.WHO.THE$COUNTRY, the.EU=data.WHO.THE$Numeric)
+df.WHO.THE <- data.frame(country=data.WHO.THE$COUNTRY, the=data.WHO.THE$Numeric)
 df.WHO.THE
 
 
-df.merge.1 <- merge(df.GBD, df.WHO.THE, all.x=F, by="country.EU")
+df.merge.1 <- merge(df.GBD, df.WHO.THE, all.x=F, by="country")
 df.merge.1
 
-intermediate.data <- merge(df.merge.1, df.WHO.WF, all.x=F, all.y=FALSE, by="country.EU")
+intermediate.data <- merge(df.merge.1, df.WHO.WF, all.x=F, all.y=FALSE, by="country")
 intermediate.data
 
-# Years Lived with Disability, Nursing density and Physicians density
-yld.EU <- intermediate.data$le.EU - intermediate.data$hale.EU
-rn.EU <- intermediate.data$rn.EU
-md.EU <- intermediate.data$md.EU
-the.EU <- intermediate.data$the.EU
-
-# Care Intensity, Care Index amd Care Value
-CareI.EU <- rn.EU / md.EU
-TreatmentI.EU <- md.EU / yld.EU
-CareX.EU <- CareI.EU * TreatmentI.EU # (rn / md) * (md / yld) = rn / yld
-CareV.EU <- the.EU * CareX.EU
-
+# Years Lived with Disability
+yld <- intermediate.data$le - intermediate.data$hale
 
 # Tidy Dataset
-tidy.data.EU <- data.frame(output_year=output_year, intermediate.data, yld.EU, CareI.EU, TreatmentI.EU, CareX.EU, CareV.EU)
-tidy.data.EU
+tidy.data <- data.frame(output_year=output_year, intermediate.data, yld)
+tidy.data
 
-attach(tidy.data.EU)
+attach(tidy.data)
 
 # Saving Tidy Dataset to .csv file
 file_name <- paste("Output_EU_", output_year, ".csv", sep="" )
 file_name
-write.csv(tidy.data.EU, file_name)
+write.csv(tidy.data, file_name)
 ```
 
 
