@@ -241,10 +241,32 @@ text(data.ROW.2010$le[data.ROW.2010$country == ID.ROW], data.ROW.2010$yld[data.R
 ```
 
 
-# Total Health Expenditure Growth
+# Quality, Cost and Value
 
 ```{r}
 
+delta.COST.EU <- data.EU.2010$the - data.EU.1990$the
+delta.COST.ROW <- data.ROW.2010$the - data.ROW.1990$the
+
+delta.HALE.EU <- data.EU.2010$hale - data.EU.1990$hale
+delta.HALE.ROW <- data.ROW.2010$hale - data.ROW.1990$hale
+
+
+delta.LE.EU <- data.EU.2010$le - data.EU.1990$le
+delta.LE.ROW <- data.ROW.2010$le - data.ROW.1990$le
+
+delta.QUALITY.EU <- 1- (delta.HALE.EU / delta.LE.EU)
+delta.QUALITY.ROW <- 1- (delta.HALE.ROW / delta.LE.ROW)
+delta.QUALITY.EU
+delta.QUALITY.ROW
+
+delta.VALUE.EU <- delta.COST.EU * delta.QUALITY.EU
+delta.VALUE.ROW <- delta.COST.ROW * delta.QUALITY.ROW
+delta.VALUE.EU
+delta.VALUE.ROW
+
+plot(delta.COST.ROW, delta.QUALITY.ROW, ylim=c(-1,1))
+points(delta.COST.EU, delta.QUALITY.EU, col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
 
 ```
