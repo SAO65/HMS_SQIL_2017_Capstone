@@ -19,6 +19,8 @@ library(data.table)
 
 Downloading data from the repositories
 
+
+
 ```{r, cache=TRUE}
 
 # Getting raw data from the IHME Global Burden of Disease Study 2010

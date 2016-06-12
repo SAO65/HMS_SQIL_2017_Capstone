@@ -90,124 +90,30 @@ ID.ROW.2 <- "USA"
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
 
-plot(df.ROW.1990$le, df.ROW.1990$yld, main="Global Burden of Disease Study 2010 (GBDx) \nWorld 1990-2010", xlab="Life Expectancy at Birth (LE)", ylab="Years Lived with Disease (YLD)", col="skyblue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 90), ylim=c(4, 15), axes=FALSE, frame.plot=FALSE)
+plot(df.ROW.1990$hale, df.ROW.1990$yld, xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", col="grey", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 75), ylim=c(4, 15), axes=FALSE, frame.plot=FALSE)
 
-points(df.EU.1990$le, df.EU.1990$yld, col="skyblue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.2010$le, df.ROW.2010$yld, col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.EU.2010$le, df.EU.2010$yld,  col="skyblue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-axis(1, col.axis="black", las=2, cex.axis=0.7, tick=-.01)
-
-axis(2, at=(round(min(df.ROW.1990$yld), 0): round(max(df.ROW.1990$yld), 0)), col.axis="skyblue", las=2, cex.axis=0.7, tick=-.01)
-
-axis(4, at=(round(min(df.ROW.2010$yld), 0): round(max(df.ROW.2010$yld), 0)), col.axis="blue", las=2, cex.axis=0.7, tick=-.01)
-
-text(40, 12, "minmax 1990", col="skyblue")
-text(40, 11, "minmax 2010", col="blue")
-
-points(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], pch=21, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], labels=paste(ID.ROW.1, "2010"), cex= .8, pos=1, offset = .5)
-
-abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], lty=2)
-
-ID.min = df.ROW.2010$country[df.ROW.2010$yld.2010 == min(df.ROW.2010$yld.2010)]
-ID.min
-
-ID.max = df.ROW.2010$country[df.ROW.2010$yld.2010 == max(df.ROW.2010$yld.2010)]
-ID.max
-
-text(df.ROW.2010$le.2010[df.ROW.2010$country == ID.min], df.ROW.2010$yld.2010[df.ROW.2010$country == ID.min], labels=ID.min, cex= .8, pos=4, offset = .5)
-
-text(df.ROW.2010$le.2010[df.ROW.2010$country == ID.max], df.ROW.2010$yld.2010[df.ROW.2010$country == ID.max], labels=ID.max, cex= .8, pos=4, offset = .5)
-
-```
+points(df.ROW.2010$hale, df.ROW.2010$yld, col="darkslategrey", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
 
-# Expansion of Morbidity EU-ROW: 1990
+points(df.EU.1990$hale, df.EU.1990$yld, col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-```{r}
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.ROW.1990$le, df.ROW.1990$yld, main="Global Burden of Disease Study 2010 (GBDx) \nEU-ROW: 1990", xlab="Life Expectancy at Birth (LE)", ylab="Years Lived with Disease (YLD)", col="skyblue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30,90), ylim=c(4, 15), axes=FALSE, frame.plot=FALSE)
-
-points(df.EU.1990$le, df.EU.1990$yld, col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-axis(1, col.axis="black", las=2, cex.axis=0.7, tick=-.01)
-
-axis(2, at=(round(min(df.ROW.1990$yld), 0): round(max(df.ROW.1990$yld), 0)), col.axis="skyblue", las=2, cex.axis=0.7, tick=-.01)
-
-axis(4, at=(round(min(df.EU.1990$yld), 0): round(max(df.EU.1990$yld), 0)), col.axis="blue", las=2, cex.axis=0.7, tick=-.01)
-
-text(40, 12, "ROW_1990", col="skyblue")
-text(40, 11, "EU_1990", col="blue")
-
-fun.ROW.1990 <- lm(df.ROW.1990$yld ~ df.ROW.1990$le)
-fun.EU.1990 <- lm(df.EU.1990$yld ~ df.EU.1990$le)
-
-abline(fun.ROW.1990, lty = 3, col="skyblue", lwd=1.5)
-abline(fun.EU.1990, lty = 3, col="blue", lwd=1.5)
-
-points(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU], pch=2, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU], labels=paste(ID.EU, "1990"), cex= .8, pos=4, offset = .7)
-
-points(df.ROW.1990$le[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2], pch=8, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.ROW.1990$le[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2], labels=paste(ID.ROW.2, "1990"), cex= .8, pos=4, offset = 1)
+points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
 
-abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], lty=2)
+axis(1, at=(round(min(df.EU.1990$hale), 0): round(max(df.EU.1990$hale), 0)), col.axis="blue", col="blue", las=1, cex.axis=0.7,  tick=-.01)
 
-ID.min = df.ROW.1990$country[df.ROW.1990$yld.1990 == min(df.ROW.1990$yld.1990)]
-ID.min
+axis(2, at=(round(min(df.EU.1990$yld), 0): round(max(df.EU.1990$yld), 0)), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
 
-ID.max = df.ROW.1990$country[df.ROW.1990$yld.1990 == max(df.ROW.1990$yld.1990)]
-ID.max
+axis(3, at=(round(min(df.EU.2010$hale), 0): round(max(df.EU.2010$hale), 0)), col.axis="red", col="red",las=1, cex.axis=0.7,  tick=-.01)
 
-text(df.ROW.1990$le.1990[df.ROW.1990$country == ID.min], df.ROW.1990$yld.1990[df.ROW.1990$country == ID.min], labels=ID.min, cex= .8, pos=4, offset = .5)
+axis(4, at=(round(min(df.EU.2010$yld), 0): round(max(df.EU.2010$yld), 0)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
 
-text(df.ROW.1990$le.1990[df.ROW.1990$country == ID.max], df.ROW.1990$yld.1990[df.ROW.1990$country == ID.max], labels=ID.max, cex= .8, pos=4, offset = .5)
+text(40, 14, "minMAX EU 1990", col="blue")
+text(40, 13, "minMAX EU 2010", col="red")
 
-```
+text(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1]+.3, labels=paste(ID.ROW.1, ""), cex= .8, pos=4, offset = .2)
 
-
-
-# Expansion of Morbidity EU-ROW: 2010
-
-```{r}
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.ROW.2010$le, df.ROW.2010$yld, main="Global Burden of Disease Study 2010 (GBDx) \nEU-ROW: 2010", xlab="Life Expectancy at Birth (LE)", ylab="Years Lived with Disease (YLD)", col="skyblue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30,90), ylim=c(4, 15), axes=FALSE, frame.plot=FALSE)
-
-points(df.EU.2010$le, df.EU.2010$yld, col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-axis(1, col.axis="black", las=2, cex.axis=0.7, tick=-.01)
-
-axis(2, at=(round(min(df.ROW.2010$yld), 0): round(max(df.ROW.2010$yld), 0)), col.axis="skyblue", las=2, cex.axis=0.7, tick=-.01)
-
-axis(4, at=(round(min(df.EU.2010$yld), 0): round(max(df.EU.2010$yld), 0)), col.axis="blue", las=2, cex.axis=0.7, tick=-.01)
-
-text(40, 12, "ROW_2010", col="skyblue")
-text(40, 11, "EU_2010", col="blue")
-
-fun.ROW.2010 <- lm(df.ROW.2010$yld ~ df.ROW.2010$le)
-fun.EU.2010 <- lm(df.EU.2010$yld ~ df.EU.2010$le)
-
-abline(fun.ROW.2010, lty = 3, col="skyblue", lwd=1.5)
-abline(fun.EU.2010, lty = 3, col="blue", lwd=1.5)
-
-points(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU], pch=2, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU], labels=paste(ID.EU, "2010"), cex= .8, pos=4, offset = .7)
-
-points(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2], pch=8, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2], labels=paste(ID.ROW.2, "2010"), cex= .8, pos=4, offset = .7)
-
-abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], lty=2)
+abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
 
 ID.min = df.ROW.2010$country[df.ROW.2010$yld.2010 == min(df.ROW.2010$yld.2010)]
 ID.min
@@ -215,259 +121,51 @@ ID.min
 ID.max = df.ROW.2010$country[df.ROW.2010$yld.2010 == max(df.ROW.2010$yld.2010)]
 ID.max
 
-text(df.ROW.2010$le.2010[df.ROW.2010$country == ID.min], df.ROW.2010$yld.2010[df.ROW.2010$country == ID.min], labels=ID.min, cex= .8, pos=4, offset = .5)
+text(df.ROW.2010$hale.2010[df.ROW.2010$country == ID.min], df.ROW.2010$yld.2010[df.ROW.2010$country == ID.min]+.2, labels=ID.min, cex= .8, pos=4, offset = .2)
 
-text(df.ROW.2010$le.2010[df.ROW.2010$country == ID.max], df.ROW.2010$yld.2010[df.ROW.2010$country == ID.max], labels=ID.max, cex= .8, pos=4, offset = .5)
-
+text(df.ROW.2010$hale.2010[df.ROW.2010$country == ID.max], df.ROW.2010$yld.2010[df.ROW.2010$country == ID.max]+.2, labels=ID.max, cex= .8, pos=4, offset = .2)
 
 ```
 
 
-# Expansion of Morbidity EU: 1990-2010
+
+# Acceleration of Expansion of Morbidity EU: 1990-2010
 
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
 
-plot(df.EU.2010$le, df.EU.2010$yld, main="Global Burden of Disease Study 2010 (GBDx) \nEU: 1990-2010", xlab="Life Expectancy at Birth (LE)", ylab="Years Lived with Disease (YLD)", col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 90), ylim=c(4, 15), axes=FALSE, frame.plot=FALSE)
+plot(df.EU.1990$hale, df.EU.1990$yld, xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 75), ylim=c(4, 15), axes=FALSE, frame.plot=FALSE)
 
-points(df.EU.1990$le, df.EU.1990$yld, col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-axis(1, col.axis="black", las=2, cex.axis=0.7, tick=-.01)
+axis(1, at=(round(min(df.EU.1990$hale), 0): round(max(df.EU.1990$hale), 0)), col.axis="blue", col="blue", las=1, cex.axis=0.7,  tick=-.01)
 
-axis(2, at=(round(min(df.EU.1990$yld), 0): round(max(df.EU.1990$yld), 0)), col.axis="blue", las=2, cex.axis=0.7, tick=-.01)
+axis(2, at=(round(min(df.EU.1990$yld), 0): round(max(df.EU.1990$yld), 0)), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
 
-axis(4, at=(round(min(df.EU.2010$yld), 0): round(max(df.EU.2010$yld), 0)), col.axis="red", las=2, cex.axis=0.7, tick=-.01)
+axis(3, at=(round(min(df.EU.2010$hale), 0): round(max(df.EU.2010$hale), 0)), col.axis="red", col="red",las=1, cex.axis=0.7,  tick=-.01)
 
-text(40, 12, "EU_1990", col="blue")
-text(40, 11, "EU_2010", col="red")
+axis(4, at=(round(min(df.EU.2010$yld), 0): round(max(df.EU.2010$yld), 0)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
 
-fun.EU.2010 <- lm(df.EU.2010$yld ~ df.EU.2010$le)
-fun.EU.1990 <- lm(df.EU.1990$yld ~ df.EU.1990$le)
+text(40, 14, "minMAX EU 1990", col="blue")
+text(40, 13, "minMAX EU 2010", col="red")
 
-abline(lm(df.EU.1990$yld ~ df.EU.1990$le), lty = 3, col="blue", lwd=1.5)
-abline(lm(df.EU.2010$yld ~ df.EU.2010$le), lty = 3, col="red", lwd=1.5)
+points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], col="black", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU], pch=2, col="black", cex = 1.3, lty = "solid", lwd = 2)
+text(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1]+.3, labels=paste(ID.ROW.1, ""), cex= .8, pos=4, offset = .2)
 
-text(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU], labels=paste(ID.EU, "1990"), cex= .8, pos=4, offset = .7)
-
-points(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU], pch=2, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU], labels=paste(ID.EU, "2010"), cex= .8, pos=4, offset = .7)
-
-abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], lty=2)
-
-```
+abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
 
 
-# The Expansion of Morbidity Hypothesis
+fun.EU.1990 <- lm(df.EU.1990$yld ~ df.EU.1990$hale)
+abline(fun.EU.1990, lty = 2, col="blue", lwd=1.5)
+summary(fun.EU.1990)
 
-```{r}
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.ROW.1990$le[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2], main="The Expansion of Morbidity Hypothesis", xlab="Life Expectancy at Birth (LE)", ylab="Years Lived with Disease (YLD)", col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 90), ylim=c(4, 15), axes=FALSE, frame.plot=FALSE)
-
-text(df.ROW.1990$le[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2], labels=paste(ID.ROW.2, "1990"), cex= .8, pos=2, offset = .7)
-
-points(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2], pch=8, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2], labels=paste(ID.ROW.2, "2010"), cex= .8, pos=4, offset = .7)
-
-points(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.2010$country == ID.EU], pch=2, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU], labels=paste(ID.EU, "1990"), cex= .8, pos=2, offset = .7)
-
-points(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU], pch=2, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU], labels=paste(ID.EU, "2010"), cex= .8, pos=2, offset = .7)
-
-points(df.ROW.1990$le[df.ROW.1990$country == ID.ROW.1], df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.1], pch=21, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.ROW.1990$le[df.ROW.1990$country == ID.ROW.1], df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.1], labels=paste(ID.ROW.1, "1990"), cex= .8, pos=4, offset = .5)
-
-points(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], pch=21, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], labels=paste(ID.ROW.1, "2010"), cex= .8, pos=4, offset = .5)
-
-axis(1, col.axis="black", las=2, cex.axis=0.7, tick=-.01)
-
-axis(2, at=(round(min(df.EU.1990$yld), 0): round(max(df.EU.1990$yld), 0)), col.axis="blue", las=2, cex.axis=0.7, tick=-.01)
-
-axis(4, at=(round(min(df.EU.2010$yld), 0): round(max(df.EU.2010$yld), 0)), col.axis="red", las=2, cex.axis=0.7, tick=-.01)
-
-fun.EU.2010 <- lm(df.EU.2010$yld ~ df.EU.2010$le)
-abline(fun.EU.2010, lty = 2, col="red", lwd=.7)
-
-abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], lty=2, lwd=.7)
-
-text(40, 12, "EU_1990", col="blue")
-text(40, 11, "EU_2010", col="red")
-
-
-```
-
-
-# Quality and Cost EU - ROW: 1990-2010
-
-```{r}
-
-par(mfrow=c(1,1))
-
-plot(df.ROW$the.1990, QUALITY.ROW.1990, main="Quality and Cost \nWorld 1990-2010", xlab="Per Capita Total Health Expenditure", ylab="Quality", col="grey",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", xlim=c(0, 10000), ylim=NULL, axes=TRUE, frame.plot=FALSE)
-points( df.ROW$the.2010, QUALITY.ROW.2010, col="black", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-points(df.EU$the.1990, QUALITY.EU.1990, col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-points( df.EU$the.2010, QUALITY.EU.2010, col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-fun.EU.2010 <- lm( QUALITY.EU.2010 ~ df.EU.2010$the )
-fun.EU.1990 <- lm( QUALITY.EU.1990 ~ df.EU.1990$the)
-
-abline(fun.EU.1990, lty = 3, col="blue", lwd=1.5)
-abline(fun.EU.2010, lty = 3, col="red", lwd=1.5)
+fun.EU.2010 <- lm(df.EU.2010$yld ~ df.EU.2010$hale)
+abline(fun.EU.2010, lty = 2, col="red", lwd=1.5)
+summary(fun.EU.2010)
 
 
 ```
 
 
 
-# Value EU - ROW: 1990-2010
-
-```{r}
-
-par(mfrow=c(2,2))
-
-plot(VALUE.ROW.1990, VALUE.ROW.2010, main="Value \nROW 1990-2010", xlab="VALUE 1990", ylab="VALUE 2010", col="skyblue",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", axes=TRUE, frame.plot=FALSE, xlim=c(0, 30), ylim=c(0, 30))
-
-points( VALUE.EU.1990, VALUE.EU.2010, main="Value \nEU 1990-2010", xlab="YEAR 1990 -- Int USD PPP", ylab="YEAR 2010 -- Int USD PPP", col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-
-plot(VALUE.ROW.1990, VALUE.ROW.2010, main="Value \nROW 1990-2010", xlab="VALUE 1990", ylab="VALUE 2010", col="skyblue",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", axes=TRUE, frame.plot=FALSE, xlim=c(0, 15), ylim=c(0, 15))
-
-points( VALUE.EU.1990, VALUE.EU.2010, main="Value \nEU 1990-2010", xlab="YEAR 1990 -- Int USD PPP", ylab="YEAR 2010 -- Int USD PPP", col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-
-plot(VALUE.ROW.1990, VALUE.ROW.2010, main="Value \nROW 1990-2010", xlab="VALUE 1990", ylab="VALUE 2010", col="skyblue",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", axes=TRUE, frame.plot=FALSE, xlim=c(0, 7.5), ylim=c(0, 7.5))
-
-points( VALUE.EU.1990, VALUE.EU.2010, main="Value \nEU 1990-2010", xlab="YEAR 1990 -- Int USD PPP", ylab="YEAR 2010 -- Int USD PPP", col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-
-plot(VALUE.ROW.1990, VALUE.ROW.2010, main="Value \nROW 1990-2010", xlab="VALUE 1990", ylab="VALUE 2010", col="skyblue",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", axes=TRUE, frame.plot=FALSE, xlim=c(0, 3.75), ylim=c(0, 3.75))
-
-points( VALUE.EU.1990, VALUE.EU.2010, main="Value \nEU 1990-2010", xlab="YEAR 1990 -- Int USD PPP", ylab="YEAR 2010 -- Int USD PPP", col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-
-```
-
-
-# Growth of Total Health Expenditure WORLD: 1990-2010
-
-```{r}
-par(mfrow=c(1,1))
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.ROW.1990$yld, df.ROW.1990$the, main="Growth of Total Health Expenditure \nWorld 1990-2010", xlab="Years Lived with Disease", ylab="Per Capita Total Health Expenditure", col="grey",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", xlim=c(4,15), ylim=c(0, 10000), axes=TRUE, frame.plot=FALSE)
-
-points(df.ROW.2010$yld, df.ROW.2010$the, col="black", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.EU.1990$yld, df.EU.1990$the, col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.EU.2010$yld, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-
-fun.EU.2010 <- lm(df.EU.2010$the ~ df.EU.2010$yld)
-fun.EU.1990 <- lm(df.EU.1990$the ~ df.EU.1990$yld)
-
-abline(fun.EU.1990, lty = 3, col="blue", lwd=1.5)
-abline(fun.EU.2010, lty = 3, col="red", lwd=1.5)
-
-
-points(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], pch=21, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], labels=paste(ID.ROW.1, "2010"), cex= .8, pos=2, offset = .5)
-
-abline(h=df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], lty=2)
-
-ID.max = df.ROW.2010$country[df.ROW.2010$the.2010 == max(df.ROW.2010$the.2010)]
-ID.max
-
-text(df.ROW.2010$yld.2010[df.ROW.2010$country == ID.max], df.ROW.2010$the.2010[df.ROW.2010$country == ID.max], labels=paste(ID.max, "2010 max"), cex= .8, pos=4, offset = .5)
-
-```
-
-
-# Growth of Nursing Density, WORLD
-
-```{r}
-
-par(mfrow=c(1,1))
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.ROW.2010$yld, df.ROW.2010$rn, main="Growth of Nursing Density \nWorld 1990-2010", xlab="Years Lived with Disease", ylab="Nursing Density (x 1000 Inhabitants)", col="grey",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", axes=TRUE, frame.plot=FALSE)
-
-points(df.EU.2010$yld, df.EU.2010$rn,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-fun.EU.2010 <- lm(df.EU.2010$rn ~ df.EU.2010$yld)
-
-abline(fun.EU.2010, lty = 3, col="red", lwd=1.5)
-
-
-points(df.EU.2010$yld[df.EU.2010$country == ID.EU], df.EU.2010$rn[df.EU.2010$country == ID.EU], pch=21, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.EU.2010$yld[df.EU.2010$country == ID.EU], df.EU.2010$rn[df.EU.2010$country == ID.EU], labels=paste(ID.EU), cex= .8, pos=4, offset = .5)
-
-abline(v=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], h=df.ROW.2010$rn[df.ROW.2010$country == ID.ROW.1], lty=2)
-
-
-```
-
-# Growth of Physicians Density, WORLD
-
-```{r}
-
-par(mfrow=c(1,1))
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.ROW.2010$yld, df.ROW.2010$md, main="Growth of Physicians Density \nWorld 1990-2010", xlab="Years Lived with Disease", ylab="Nursing Density (x 1000 Inhabitants)", col="grey",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", axes=TRUE, frame.plot=FALSE)
-
-points(df.EU.2010$yld, df.EU.2010$md,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-fun.EU.2010 <- lm(df.EU.2010$md ~ df.EU.2010$yld)
-
-abline(fun.EU.2010, lty = 3, col="red", lwd=1.5)
-
-
-points(df.EU.2010$yld[df.EU.2010$country == ID.EU], df.EU.2010$md[df.EU.2010$country == ID.EU], pch=21, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.EU.2010$yld[df.EU.2010$country == ID.EU], df.EU.2010$md[df.EU.2010$country == ID.EU], labels=paste(ID.EU), cex= .8, pos=4, offset = .5)
-
-abline(v=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], h=df.ROW.2010$md[df.ROW.2010$country == ID.ROW.1], lty=2)
-
-
-```
-
-
-
-# Growth of Nursing Density, WORLD
-
-
-```{r}
-
-par(mfrow=c(1,1))
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.ROW.2010$the, df.ROW.2010$rn, main="Growth of Nursing Density \nWorld 1990-2010", xlab="Per Capita Total Health Expenditure", ylab="Nursing Density (x 1000 Inhabitants)", col="grey",  pch = 16, cex = 1.3, lwd = 2, lty = "solid", axes=TRUE, frame.plot=FALSE)
-
-points(df.EU.2010$the, df.EU.2010$rn,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-fun.EU.2010 <- lm(df.EU.2010$rn ~ df.EU.2010$the)
-
-abline(fun.EU.2010, lty = 3, col="red", lwd=1.5)
-
-
-points(df.EU.2010$the[df.EU.2010$country == ID.EU], df.EU.2010$rn[df.EU.2010$country == ID.EU], pch=21, col="black", cex = 1.3, lty = "solid", lwd = 2)
-
-text(df.EU.2010$the[df.EU.2010$country == ID.EU], df.EU.2010$rn[df.EU.2010$country == ID.EU], labels=paste(ID.EU), cex= .8, pos=4, offset = .5)
-
-abline(v=df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], h=df.ROW.2010$rn[df.ROW.2010$country == ID.ROW.1], lty=2)
-
-
-```
