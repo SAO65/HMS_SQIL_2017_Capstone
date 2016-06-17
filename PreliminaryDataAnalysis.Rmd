@@ -64,7 +64,7 @@ lim.the <- c(100, 8500)
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
 
-plot(df.ROW.1990$hale, df.ROW.1990$yld, xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", type="p", col="grey", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 75), ylim=lim.yld, axes=FALSE, frame.plot=FALSE)
+plot(df.ROW.1990$hale, df.ROW.1990$yld, xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", type="p", col="grey", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.hale, ylim=lim.yld, axes=FALSE, frame.plot=FALSE)
 
 points(df.ROW.2010$hale, df.ROW.2010$yld, col="darkslategrey", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
@@ -113,7 +113,7 @@ text(df.ROW.2010$hale[df.ROW.2010$country == ID.max], df.ROW.2010$yld[df.ROW.201
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
 
-plot(df.EU.1990$hale, df.EU.1990$yld, xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 75), ylim=lim.yld, axes=FALSE, frame.plot=FALSE)
+plot(df.EU.1990$hale, df.EU.1990$yld, xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.hale, ylim=lim.yld, axes=FALSE, frame.plot=FALSE)
 
 points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
@@ -159,7 +159,7 @@ confint(fun.EU.2010)
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
 
-plot(df.EU.1990$le, df.EU.1990$the, xlab="Life Expectancy at Birth", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.le, ylim=c(100, 8500), axes=FALSE, frame.plot=FALSE)
+plot(df.EU.1990$le, df.EU.1990$the, xlab="Life Expectancy at Birth", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.le, ylim=lim.the, axes=FALSE, frame.plot=FALSE)
 
 points(df.EU.2010$le, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
@@ -213,7 +213,7 @@ confint(fun.EU.2010)
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
 
-plot(df.EU.1990$hale, df.EU.1990$the, xlab="Health Adjusted Life Expectancy at Birth", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 75), ylim=c(100, 8500), axes=FALSE, frame.plot=FALSE)
+plot(df.EU.1990$hale, df.EU.1990$the, xlab="Health Adjusted Life Expectancy at Birth", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.hale, ylim=lim.the, axes=FALSE, frame.plot=FALSE)
 
 points(df.EU.2010$hale, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
@@ -267,7 +267,7 @@ confint(fun.EU.2010)
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
 
-plot(df.EU.1990$yld, df.EU.1990$the, xlab="Years Lived with Disease", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.yld, ylim=c(100, 8500), axes=FALSE, frame.plot=FALSE)
+plot(df.EU.1990$yld, df.EU.1990$the, xlab="Years Lived with Disease", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.yld, ylim=lim.the, axes=FALSE, frame.plot=FALSE)
 
 points(df.EU.2010$yld, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
@@ -339,108 +339,39 @@ ID.EU
 
 print(df.sust, row.names = F)
 
+```
+
+
+```{r}
+
 attach(df.sust)
 
-hist(SustValue,  main="Histogram of Sustainable Value", xlab="Sustainable Value", prob=TRUE, col="grey", breaks=10, xlim=c(0, 8), ylim=c(0, .5)) 
-lines(density(X), col="blue", lwd=2) 
-lines(density(X, adjust=2), lty="dotted", col="black", lwd=2) 
+library(moments)
+library(nortest)
+library(e1071)
 
-```
+hist(SustValue,  main="Histogram of Sustainable Value", xlab="Sustainable Value x 100", prob=TRUE, col="skyblue", breaks=c(0, seq(.5,8,.5)), xlim=c(0, 8), ylim=c(0, .5), border="black", las=1, axes=F)
+axis(1, at=0:8)
+axis(2)
+lines(density(SustValue), col="red", lwd=2) 
+lines(density(SustValue, adjust=2), lty="dotted", col="blue", lwd=2) 
 
+qqnorm(SustValue, main="Q-Q Plot of Sustainable Value")
+qqline(SustValue, col="red", lwd = 1)
 
+# p-plot: you should observe a good fit of the straight line
+probplot(SustValue, qdist=qnorm)
 
-# Quality EU: 1990-2010
+# skewness and kurtosis, they should be around (0,3)
+skewness(SustValue)
+kurtosis(SustValue)
 
-```{r}
-par(mar=c(5, 4, 4, 5) + 0.1)
+# Shapiro-Wilks test
+shapiro.test(SustValue)
 
-plot(df.EU.1990$hale[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU], xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(30, 75), ylim=c(4, 15), axes=FALSE, frame.plot=FALSE)
-
-points(df.EU.2010$hale[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU],  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.1990$hale[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
-
-axis(1, at=c(round(min(df.EU.1990$hale), 1), round(median(df.EU.1990$hale), 1), round(max(df.EU.1990$hale), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
-
-axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
-
-axis(2, at=c(round(min(df.EU.1990$yld), 1), round(median(df.EU.1990$yld), 1), round(max(df.EU.1990$yld), 1)), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
-
-axis(4, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
-
-axis(3, at=c(round(min(df.EU.2010$hale), 1), round(median(df.EU.2010$hale), 1), round(max(df.EU.2010$hale), 1)), col.axis="red", col="red",las=2, cex.axis=0.7,  tick=-.01)
-
-axis(4, at=c(round(min(df.EU.2010$yld), 1), round(median(df.EU.2010$yld), 1), round(max(df.EU.2010$yld), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
-
-legend(30, 15, c("DEU 1990","DEU 2010","USA 1990", "USA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
-
-points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
-
-abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
-
-
-fun.EU.1990 <- lm(df.EU.1990$yld ~ df.EU.1990$hale)
-abline(fun.EU.1990, lty = 2, col="blue", lwd=1.5)
-
-fun.EU.2010 <- lm(df.EU.2010$yld ~ df.EU.2010$hale)
-abline(fun.EU.2010, lty = 2, col="red", lwd=1.5)
-
-```
-
-
-# Cost EU: 1990-2010
-
-```{r}
-
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.EU.1990$yld[df.EU.1990$country == ID.EU], df.EU.1990$the[df.EU.1990$country == ID.EU], xlab="Life Expectancy at Birth", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=c(4, 15), ylim=c(100, 8500), axes=FALSE, frame.plot=FALSE)
-
-points(df.EU.2010$yld[df.EU.2010$country == ID.EU], df.EU.2010$the[df.EU.2010$country == ID.EU],  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$the[df.ROW.1990$country == ID.ROW.2],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.2],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
-
-
-legend(15, 7000, c("DEU 1990","DEU 2010","USA 1990", "USA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
-
-axis(1, at=c(round(min(df.EU.1990$yld), 1), round(median(df.EU.1990$yld), 1), round(max(df.EU.1990$yld), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
-
-axis(3, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
-
-
-low.the.1990 <- round(min(df.EU.1990$the), 0)
-median.the.1990 <- round(median(df.EU.1990$the), 0)
-high.the.1990 <- round(max(df.EU.1990$the), 0)
-
-axis(2, at=c(low.the.1990,median.the.1990, high.the.1990), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
-
-axis(3, at=c(round(min(df.EU.2010$yld), 1), round(median(df.EU.2010$yld), 1), round(max(df.EU.2010$yld), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
-
-low.the.2010 <- round(min(df.EU.2010$the), 0)
-median.the.2010 <- round(median(df.EU.2010$the), 0)
-high.the.2010 <- round(max(df.EU.2010$the), 0)
-japan.the.2010 <- round(df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], 1)
-
-axis(4, at=c(low.the.2010,median.the.2010, high.the.2010), col.axis="red", col="red",las=2, cex.axis=0.7, tick=-.01)
-
-axis(4, at=japan.the.2010, col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
-
-points(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
-
-abline(h=df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
-
-
-fun.EU.1990 <- lm(df.EU.1990$the ~ df.EU.1990$yld)
-abline(fun.EU.1990, lty = 2, col="blue", lwd=1.5)
-
-fun.EU.2010 <- lm(df.EU.2010$the ~ df.EU.2010$yld)
-abline(fun.EU.2010, lty = 2, col="red", lwd=1.5)
+# Anderson-Darling test
+ad.test(SustValue)
 
 
 ```
-
 
