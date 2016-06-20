@@ -321,51 +321,50 @@ confint(fun.EU.2010)
 
 # Sustainable Quality EU
 
-Value = 
-
 ```{r}
 df.sust <- data.frame(Country=df.EU.2010$country)
 
-df.sust$Quality <- round(((df.EU.2010$hale - df.EU.1990$hale) / (df.EU.2010$the - df.EU.1990$the)) * (df.EU.1990$the / df.EU.1990$hale), 3) *100
+df.sust$DELTA_HALE <- round((df.EU.2010$hale - df.EU.1990$hale) / df.EU.1990$le, 3) * 100
 
-df.sust$Cost <- round(((df.EU.2010$yld - df.EU.1990$yld) / (df.EU.2010$the - df.EU.1990$the)) * (df.EU.1990$the / df.EU.1990$yld), 3) *100
+df.sust$DELTA_YLD <- round((df.EU.2010$yld - df.EU.1990$yld) / df.EU.1990$le, 3) * 100
 
-df.sust
+df.sust$DELTA_THE <- round((df.EU.2010$the - df.EU.1990$the) / df.EU.1990$the, 3) * 100
 
-plot(df.sust$Quality, df.sust$Cost)
+df.sust$HALEe <- round(df.sust$DELTA_HALE / df.sust$DELTA_THE, 3) * 100
 
-ID.EU.Quality <- df.sust$Country[df.sust$Quality == max(df.sust$Quality) & df.sust$Cost == min(df.sust$Cost)]
-ID.EU.Quality
+df.sust$YLDe <- round(df.sust$DELTA_YLD / df.sust$DELTA_THE, 3) * 100
 
-ID.EU.Cost <- df.sust$Country[df.sust$Cost == min(df.sust$Cost)]
-ID.EU.Cost
+df.sust$VALUEe <- round(df.sust$HALEe + df.sust$YLDe, 3)
 
 print(df.sust, row.names = F)
 
-```
+(ID.EU.Value <- df.sust$Country[df.sust$VALUEe == max(df.sust$VALUEe)])
 
-attach(df.sust)
+subset(df.sust, subset = HALEe > mean(HALEe) & YLDe < mean(YLDe))
 
-hist(SustValue,  main="Histogram of Sustainable Value", xlab="Sustainable Value x 100", prob=TRUE, col="skyblue", breaks=c(0, seq(.5,8,.5)), xlim=c(0, 8), ylim=c(0, .5), border="black", las=1, axes=F)
+
+X <- df.sust$VALUEe
+
+hist(X, prob=TRUE, col="skyblue", border="black", las=1, axes=F, ylim=c(0, .5), breaks=seq(0,8,1))
 axis(1, at=0:8)
 axis(2)
-lines(density(SustValue), col="blue", lwd=2) 
-lines(density(SustValue, adjust=2), lty="dotted", col="black", lwd=2)
-abline(v=mean(SustValue), col="red", lwd=1)
-abline(v=median(SustValue), col="black", lty=1, lwd=1)
-legend(.5, .5, c("mean","median"), col=c("red", "black"), bty="n", y.intersp=1.5, lty=c(1,1), cex = 1, lwd=1)
-
-qqnorm(SustValue, main="Q-Q Plot of Sustainable Value")
-qqline(SustValue, col="red", lwd = 1)
+lines(density(X), col="blue", lwd=2) 
+lines(density(X, adjust=2), lty="dotted", col="black", lwd=2)
+abline(v=mean(X), col="red", lwd=1)
+abline(v=median(X), col="black", lty=1, lwd=1)
+legend(.5, .5, c(paste("mean=", round(mean(X),2)),paste("median=", round(median(X),2))), col=c("red", "black"), bty="n", y.intersp=1.5, lty=c(1,1), cex = 1, lwd=1)
 
 # p-plot: you should observe a good fit of the straight line
-probplot(SustValue, qdist=qnorm)
+require(e1071)
+probplot(X, qdist=qnorm)
 
-summary(SustValue)
-density(SustValue)
+summary(X)
+density(X)
+```
 
 
-```{r}
+
+
 # Children's IQ scores are normally distributed with a
 # mean of 100 and a standard deviation of 15. What
 # proportion of children are expected to have an IQ between
@@ -390,5 +389,4 @@ result <- paste("P(",lb,"< IQ <",ub,") =",
 mtext(result,3)
 axis(1, at=seq(40, 160, 20), pos=0)
 
-```
 
