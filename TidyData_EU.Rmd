@@ -19,38 +19,38 @@ library(data.table)
 raw.data.GBD <- read.csv("GBD.csv")
 raw.data.WHO.WF <- read.csv("WHO_WF.csv")
 raw.data.WHO.THE <- read.csv("WHO_THE.csv")
-raw.data.WHO.THE.GDP <- read.csv2("API_NY.GDP.PCAP.PP.CD_DS2_en_excel_v2.csv", skip=3)
+raw.data.WHO.GDP <- read.csv2("API_NY.GDP.PCAP.PP.CD_DS2_en_excel_v2.csv", skip=3)
 
 
 names(raw.data.GBD)
 names(raw.data.WHO.WF)
 names(raw.data.WHO.THE)
-names(raw.data.WHO.THE.GDP)
+names(raw.data.WHO.GDP)
 
 
 head(raw.data.GBD)
 head(raw.data.WHO.WF)
 head(raw.data.WHO.THE)
-head(raw.data.WHO.THE.GDP)
+head(raw.data.WHO.GDP)
 
 
 dim(raw.data.GBD)
 dim(raw.data.WHO.WF)
 dim(raw.data.WHO.THE)
-dim(raw.data.WHO.THE.GDP)
+dim(raw.data.WHO.GDP)
 
 
 # Data Tables
 attach(raw.data.GBD)
 attach(raw.data.WHO.WF)
 attach(raw.data.WHO.THE)
-attach(raw.data.WHO.THE.GDP)
+attach(raw.data.WHO.GDP)
 
 
 DT.GBD <- data.table(raw.data.GBD)
 DT.WHO.WF <- data.table(raw.data.WHO.WF)
 DT.WHO.THE <- data.table(raw.data.WHO.THE)
-DT.WHO.THE.GDP <- data.table(raw.data.WHO.THE.GDP)
+DT.WHO.GDP <- data.table(raw.data.WHO.GDP)
 tables()
 ```
 
@@ -68,16 +68,17 @@ ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC
 
 length(ISO3) == 28
 
-output_year <- "1990"
-
+output_year <- "2010"
 output_year_THE <- if (output_year == "1990") {
         print("1995")
 } else {
         print("2010")
-        }
+}
+output_year_GDP <- paste("X", output_year, sep="")
 
 output_year
 output_year_THE
+output_year_GDP
 
 ```
 
@@ -100,23 +101,28 @@ data.WHO.THE <- DT.WHO.THE[DT.WHO.THE$YEAR == output_year_THE &
 df.WHO.THE <- data.frame(country=data.WHO.THE$COUNTRY, the=data.WHO.THE$Numeric)
 df.WHO.THE
 
-DT.WHO.THE.GDP
-data.WHO.THE.GDP <- DT.WHO.THE.GDP[DT.WHO.THE.GDP$Country.Code %in% ISO3, ]
-data.WHO.THE.GDP
+DT.WHO.GDP
+data.WHO.GDP <- DT.WHO.GDP[DT.WHO.GDP$Country.Code %in% ISO3 &
+                                           DT.WHO.GDP$X1990 != "NA" &
+                                           DT.WHO.GDP$X2010 != "NA"
+                                           , ]
+data.WHO.GDP
+df.WHO.GDP <- data.frame(country=data.WHO.GDP$Country.Code, gdp=round(data.WHO.GDP$X2010, 0))
+df.WHO.GDP
                                            
 
 df.merge.1 <- merge(df.GBD, df.WHO.THE, all.x=F, by="country")
 df.merge.1
 
-intermediate.data <- merge(df.merge.1, df.WHO.THE.GDP, all.x=F, all.y=FALSE, by="country")
+intermediate.data <- merge(df.merge.1, df.WHO.GDP, all.x=F, all.y=FALSE, by="country")
 intermediate.data
 
-# Years Lived with Disability and GDP
+# Years Lived with Disability and THE.GDP
 yld <- intermediate.data$le - intermediate.data$hale
-gdp <- round(intermediate.data$the / intermediate.data$the.gdp, 0) * 100
+the.gdp <- round(intermediate.data$the / intermediate.data$gdp *100, 2)
 
 # Tidy Dataset
-tidy.data <- data.frame(intermediate.data, yld, gdp)
+tidy.data <- data.frame(intermediate.data, yld, the.gdp)
 tidy.data
 
 attach(tidy.data)
