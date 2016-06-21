@@ -19,30 +19,38 @@ library(data.table)
 raw.data.GBD <- read.csv("GBD.csv")
 raw.data.WHO.WF <- read.csv("WHO_WF.csv")
 raw.data.WHO.THE <- read.csv("WHO_THE.csv")
+raw.data.WHO.THE.GDP <- read.csv2("API_NY.GDP.PCAP.PP.CD_DS2_en_excel_v2.csv", skip=3)
+
 
 names(raw.data.GBD)
 names(raw.data.WHO.WF)
 names(raw.data.WHO.THE)
+names(raw.data.WHO.THE.GDP)
+
 
 head(raw.data.GBD)
 head(raw.data.WHO.WF)
 head(raw.data.WHO.THE)
+head(raw.data.WHO.THE.GDP)
 
 
 dim(raw.data.GBD)
 dim(raw.data.WHO.WF)
 dim(raw.data.WHO.THE)
+dim(raw.data.WHO.THE.GDP)
 
 
 # Data Tables
 attach(raw.data.GBD)
 attach(raw.data.WHO.WF)
 attach(raw.data.WHO.THE)
+attach(raw.data.WHO.THE.GDP)
+
 
 DT.GBD <- data.table(raw.data.GBD)
 DT.WHO.WF <- data.table(raw.data.WHO.WF)
 DT.WHO.THE <- data.table(raw.data.WHO.THE)
-
+DT.WHO.THE.GDP <- data.table(raw.data.WHO.THE.GDP)
 tables()
 ```
 
@@ -61,6 +69,7 @@ ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC
 length(ISO3) == 28
 
 output_year <- "1990"
+
 output_year_THE <- if (output_year == "1990") {
         print("1995")
 } else {
@@ -77,35 +86,6 @@ output_year_THE
 Manipulating data to generate tidy datasets
 
 ```{r}
-data.WHO.WF.RN <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_33" &
-                                        DT.WHO.WF$COUNTRY..CODE. %in% ISO3, ]
-data.WHO.WF.RN
-df.WHO.RN.spool <- data.frame(country=data.WHO.WF.RN$COUNTRY..CODE., rn=data.WHO.WF.RN$Numeric, year=data.WHO.WF.RN$YEAR..CODE.)
-df.WHO.RN.spool
-df.WHO.WF.RN <- df.WHO.RN.spool[order(df.WHO.RN.spool$country, abs(df.WHO.RN.spool$year) ), ] 
-#sort by country and reverse of abs(year)
-df.WHO.WF.RN <- df.WHO.WF.RN[ !duplicated(df.WHO.WF.RN$country), ]
-df.WHO.WF.RN
-length(df.WHO.WF.RN$country)
-list(df.WHO.WF.RN$country)
-
-
-data.WHO.WF.MD <- DT.WHO.WF[DT.WHO.WF$GHO..CODE. == "HRH_26" &
-                                        DT.WHO.WF$COUNTRY..CODE. %in% ISO3, ]
-data.WHO.WF.MD
-df.WHO.MD.spool <- data.frame(country=data.WHO.WF.MD$COUNTRY..CODE., md=data.WHO.WF.MD$Numeric, year=data.WHO.WF.MD$YEAR..CODE.)
-df.WHO.MD.spool
-df.WHO.WF.MD <- df.WHO.MD.spool[order(df.WHO.MD.spool$country, abs(df.WHO.MD.spool$year) ), ] 
-#sort by country and reverse of abs(year)
-df.WHO.WF.MD <- df.WHO.WF.MD[ !duplicated(df.WHO.WF.MD$country), ]
-df.WHO.WF.MD
-length(df.WHO.WF.MD$country)
-list(df.WHO.WF.MD$country)
-
-
-df.WHO.WF <- merge(df.WHO.WF.RN, df.WHO.WF.MD, all.x=FALSE, all.y=FALSE, by="country")
-df.WHO.WF
-
 data.GBD <- DT.GBD[DT.GBD$year == output_year & 
                                 DT.GBD$age_name == "0-1 years" &
                                 DT.GBD$sex_name == "Both" &
@@ -115,23 +95,28 @@ df.GBD
 
 data.WHO.THE <- DT.WHO.THE[DT.WHO.THE$YEAR == output_year_THE & 
                                         DT.WHO.THE$GHO == "WHS7_105" & 
-                                        DT.WHO.THE$Numeric != "NA"&
+                                        DT.WHO.THE$Numeric != "NA" &
                                         DT.WHO.THE$COUNTRY %in% ISO3,  ]
 df.WHO.THE <- data.frame(country=data.WHO.THE$COUNTRY, the=data.WHO.THE$Numeric)
 df.WHO.THE
 
+DT.WHO.THE.GDP
+data.WHO.THE.GDP <- DT.WHO.THE.GDP[DT.WHO.THE.GDP$Country.Code %in% ISO3, ]
+data.WHO.THE.GDP
+                                           
 
 df.merge.1 <- merge(df.GBD, df.WHO.THE, all.x=F, by="country")
 df.merge.1
 
-intermediate.data <- merge(df.merge.1, df.WHO.WF, all.x=F, all.y=FALSE, by="country")
+intermediate.data <- merge(df.merge.1, df.WHO.THE.GDP, all.x=F, all.y=FALSE, by="country")
 intermediate.data
 
-# Years Lived with Disability
+# Years Lived with Disability and GDP
 yld <- intermediate.data$le - intermediate.data$hale
+gdp <- round(intermediate.data$the / intermediate.data$the.gdp, 0) * 100
 
 # Tidy Dataset
-tidy.data <- data.frame(output_year=output_year, intermediate.data, yld)
+tidy.data <- data.frame(intermediate.data, yld, gdp)
 tidy.data
 
 attach(tidy.data)

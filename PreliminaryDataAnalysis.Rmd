@@ -11,7 +11,6 @@ require(data.table)
 
 ```
 
-
 # Reading tidy data
 
 ```{r echo=FALSE}
@@ -322,28 +321,27 @@ confint(fun.EU.2010)
 # Sustainable Quality EU
 
 ```{r}
-df.sust <- data.frame(Country=df.EU.2010$country)
+df.sust.EU <- data.frame(Country=df.EU.2010$country)
 
-df.sust$DELTA_HALE <- round((df.EU.2010$hale - df.EU.1990$hale) / df.EU.1990$le, 3) * 100
+df.sust.EU$DELTA_HALE <- round((df.EU.2010$hale - df.EU.1990$hale) / df.EU.1990$le, 3) * 100
 
-df.sust$DELTA_YLD <- round((df.EU.2010$yld - df.EU.1990$yld) / df.EU.1990$le, 3) * 100
+df.sust.EU$DELTA_YLD <- round((df.EU.2010$yld - df.EU.1990$yld) / df.EU.1990$le, 3) * 100
 
-df.sust$DELTA_THE <- round((df.EU.2010$the - df.EU.1990$the) / df.EU.1990$the, 3) * 100
+df.sust.EU$QUALITYe <- round(df.sust.EU$DELTA_HALE / df.sust.EU$DELTA_YLD, 3)
 
-df.sust$HALEe <- round(df.sust$DELTA_HALE / df.sust$DELTA_THE, 3) * 100
+df.sust.EU$DELTA_THE <- round((df.EU.2010$the - df.EU.1990$the) / df.EU.1990$the, 3)  * 100
 
-df.sust$YLDe <- round(df.sust$DELTA_YLD / df.sust$DELTA_THE, 3) * 100
+df.sust.EU$DELTA_GDP <- 0.0001
 
-df.sust$VALUEe <- round(df.sust$HALEe + df.sust$YLDe, 3)
+df.sust.EU$COSTe <- round(df.sust.EU$DELTA_THE / df.sust.EU$DELTA_GDP, 3)
 
-print(df.sust, row.names = F)
+df.sust.EU$VALUEe <- round(df.sust.EU$QUALITYe / df.sust.EU$COSTe, 3)
 
-(ID.EU.Value <- df.sust$Country[df.sust$VALUEe == max(df.sust$VALUEe)])
+print(df.sust.EU, row.names = F)
 
-subset(df.sust, subset = HALEe > mean(HALEe) & YLDe < mean(YLDe))
+(ID.EU.Value <- df.sust.EU$Country[df.sust.EU$VALUEe == max(df.sust.EU$VALUEe)])
 
-
-X <- df.sust$VALUEe
+X <- df.sust.EU$VALUEe
 
 hist(X, prob=TRUE, col="skyblue", border="black", las=1, axes=F, ylim=c(0, .5), breaks=seq(0,8,1))
 axis(1, at=0:8)
@@ -360,7 +358,30 @@ probplot(X, qdist=qnorm)
 
 summary(X)
 density(X)
+
 ```
+
+
+
+```{r}
+USA.DELTA_HALE <- (df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.2] - df.ROW.1990$hale[df.ROW.1990$country == ID.ROW.2]) / (df.ROW.1990$hale[df.ROW.1990$country == ID.ROW.2]) * 100
+
+USA.DELTA_YLD <- (df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2] - df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2]) / (df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2])* 100
+
+USA.DELTA_THE <- (df.ROW.2010$the[df.ROW.2010$country == ID.ROW.2] - df.ROW.1990$the[df.ROW.1990$country == ID.ROW.2]) / (df.ROW.1990$the[df.ROW.1990$country == ID.ROW.2])* 100
+
+USA_HALEe <- USA.DELTA_HALE / USA.DELTA_THE * 100
+
+USA_YLDe <- USA.DELTA_YLD / USA.DELTA_THE * 100
+
+USA_VALUEe <- USA_HALEe + USA_YLDe
+
+df.sust.USA <- data.frame(USA.DELTA_HALE, USA.DELTA_YLD, USA.DELTA_THE, USA_HALEe, USA_YLDe, USA_VALUEe)
+
+df.sust.USA
+
+```
+
 
 
 

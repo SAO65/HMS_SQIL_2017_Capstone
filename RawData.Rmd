@@ -22,6 +22,7 @@ Downloading data from the repositories
 
 
 ```{r, cache=TRUE}
+require(downloader)
 
 # Getting raw data from the IHME Global Burden of Disease Study 2010
 fileURL.GBD <- "http://ghdx.healthdata.org/sites/default/files/record-attached-files/IHME_GBD_2010_HALE_BY_COUNTRY_1990_2010_Y2010M02D23.CSV"
@@ -31,6 +32,8 @@ fileURL.WHO.WF <- "http://apps.who.int/gho/athena/data/data-verbose.csv?target=G
 
 # Getting raw data from the WHO Health Expenditure Repository
 fileURL.WHO.THE <- "http://apps.who.int/gho/athena/data/xmart.csv?target=GHO/WHS7_156,WHS7_105,WHS7_104,WHS7_108&profile=xmart&filter=COUNTRY:*;REGION:AFR;REGION:AMR;REGION:SEAR;REGION:EUR;REGION:EMR;REGION:WPR"
+
+
 
 download.file(fileURL.GBD, destfile="GBD.csv", method="curl")
 download.file(fileURL.WHO.WF, destfile="WHO_WF.csv", method="curl")
