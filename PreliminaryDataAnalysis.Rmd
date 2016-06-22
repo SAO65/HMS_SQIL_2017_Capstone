@@ -31,13 +31,13 @@ attach(data.EU.2010)
 attach(data.ROW.1990)
 attach(data.ROW.2010)
 
-df.EU.1990 <- data.frame(country=data.EU.1990$country, le=data.EU.1990$le, hale=data.EU.1990$hale, yld=data.EU.1990$yld, the=data.EU.1990$the)
+df.EU.1990 <- data.frame(country=data.EU.1990$country, le=data.EU.1990$le, hale=data.EU.1990$hale, yld=data.EU.1990$yld, the=data.EU.1990$the, gdp=data.EU.1990$gdp, the.gdp=data.EU.1990$the.gdp)
 
-df.EU.2010 <- data.frame(country=data.EU.2010$country, le=data.EU.2010$le,hale=data.EU.2010$hale, yld=data.EU.2010$yld, the=data.EU.2010$the)
+df.EU.2010 <- data.frame(country=data.EU.2010$country, le=data.EU.2010$le,hale=data.EU.2010$hale, yld=data.EU.2010$yld, the=data.EU.2010$the, gdp=data.EU.2010$gdp, the.gdp=data.EU.2010$the.gdp)
 
-df.ROW.1990 <- data.frame(country=data.ROW.1990$country, le=data.ROW.1990$le,hale=data.ROW.1990$hale, yld=data.ROW.1990$yld, the=data.ROW.1990$the)
+df.ROW.1990 <- data.frame(country=data.ROW.1990$country, le=data.ROW.1990$le,hale=data.ROW.1990$hale, yld=data.ROW.1990$yld, the=data.ROW.1990$the, gdp=data.ROW.1990$gdp, the.gdp=data.ROW.1990$the.gdp)
 
-df.ROW.2010 <- data.frame(country=data.ROW.2010$country, le=data.ROW.2010$le,hale=data.ROW.2010$hale, yld=data.ROW.2010$yld, the=data.ROW.2010$the)
+df.ROW.2010 <- data.frame(country=data.ROW.2010$country, le=data.ROW.2010$le,hale=data.ROW.2010$hale, yld=data.ROW.2010$yld, the=data.ROW.2010$the, gdp=data.ROW.2010$gdp, the.gdp=data.ROW.2010$the.gdp)
 
 df.EU.1990
 df.EU.2010
@@ -323,19 +323,27 @@ confint(fun.EU.2010)
 ```{r}
 df.sust.EU <- data.frame(Country=df.EU.2010$country)
 
-df.sust.EU$DELTA_HALE <- round((df.EU.2010$hale - df.EU.1990$hale) / df.EU.1990$le, 3) * 100
 
-df.sust.EU$DELTA_YLD <- round((df.EU.2010$yld - df.EU.1990$yld) / df.EU.1990$le, 3) * 100
+
+df.sust.EU$DELTA_HALE <- round((df.EU.2010$hale - df.EU.1990$hale) / df.EU.1990$hale, 3) * 100
+
+df.sust.EU$DELTA_YLD <- round((df.EU.2010$yld - df.EU.1990$yld) / df.EU.1990$yld, 3) * 100
 
 df.sust.EU$QUALITYe <- round(df.sust.EU$DELTA_HALE / df.sust.EU$DELTA_YLD, 3)
 
+
+
 df.sust.EU$DELTA_THE <- round((df.EU.2010$the - df.EU.1990$the) / df.EU.1990$the, 3)  * 100
 
-df.sust.EU$DELTA_GDP <- 0.0001
+df.sust.EU$DELTA_GDP <- round((df.EU.2010$gdp - df.EU.1990$gdp) / df.EU.1990$gdp, 3)  * 100
 
 df.sust.EU$COSTe <- round(df.sust.EU$DELTA_THE / df.sust.EU$DELTA_GDP, 3)
 
+
+
 df.sust.EU$VALUEe <- round(df.sust.EU$QUALITYe / df.sust.EU$COSTe, 3)
+
+
 
 print(df.sust.EU, row.names = F)
 
@@ -343,8 +351,8 @@ print(df.sust.EU, row.names = F)
 
 X <- df.sust.EU$VALUEe
 
-hist(X, prob=TRUE, col="skyblue", border="black", las=1, axes=F, ylim=c(0, .5), breaks=seq(0,8,1))
-axis(1, at=0:8)
+hist(X, prob=TRUE, col="skyblue", border="black", las=1, axes=F, breaks=5)
+axis(1, at=0:1)
 axis(2)
 lines(density(X), col="blue", lwd=2) 
 lines(density(X, adjust=2), lty="dotted", col="black", lwd=2)
@@ -352,13 +360,7 @@ abline(v=mean(X), col="red", lwd=1)
 abline(v=median(X), col="black", lty=1, lwd=1)
 legend(.5, .5, c(paste("mean=", round(mean(X),2)),paste("median=", round(median(X),2))), col=c("red", "black"), bty="n", y.intersp=1.5, lty=c(1,1), cex = 1, lwd=1)
 
-# p-plot: you should observe a good fit of the straight line
-require(e1071)
-probplot(X, qdist=qnorm)
-
 summary(X)
-density(X)
-
 ```
 
 
@@ -370,13 +372,15 @@ USA.DELTA_YLD <- (df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2] - df.ROW.1990
 
 USA.DELTA_THE <- (df.ROW.2010$the[df.ROW.2010$country == ID.ROW.2] - df.ROW.1990$the[df.ROW.1990$country == ID.ROW.2]) / (df.ROW.1990$the[df.ROW.1990$country == ID.ROW.2])* 100
 
-USA_HALEe <- USA.DELTA_HALE / USA.DELTA_THE * 100
+USA.DELTA_GDP <- (df.ROW.2010$gdp[df.ROW.2010$country == ID.ROW.2] - df.ROW.1990$gdp[df.ROW.1990$country == ID.ROW.2]) / (df.ROW.1990$gdp[df.ROW.1990$country == ID.ROW.2])* 100
 
-USA_YLDe <- USA.DELTA_YLD / USA.DELTA_THE * 100
+USA_QUALITYe <- USA.DELTA_HALE / USA.DELTA_YLD
 
-USA_VALUEe <- USA_HALEe + USA_YLDe
+USA_COSTe <- USA.DELTA_THE / USA.DELTA_GDP
 
-df.sust.USA <- data.frame(USA.DELTA_HALE, USA.DELTA_YLD, USA.DELTA_THE, USA_HALEe, USA_YLDe, USA_VALUEe)
+USA_VALUEe <- USA_QUALITYe /  USA_COSTe
+
+df.sust.USA <- data.frame(DELTA_HALE=USA.DELTA_HALE,DELTA_YLD= USA.DELTA_YLD, QUALITYe=USA_QUALITYe, DELTA_THE=USA.DELTA_THE,DELTA_GDP=USA.DELTA_GDP, COSTe=USA_COSTe, VALUEe=USA_VALUEe)
 
 df.sust.USA
 

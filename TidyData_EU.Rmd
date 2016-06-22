@@ -17,38 +17,26 @@ knitr::opts_chunk$set(echo = TRUE)
 library(data.table)
 
 raw.data.GBD <- read.csv("GBD.csv")
-raw.data.WHO.WF <- read.csv("WHO_WF.csv")
 raw.data.WHO.THE <- read.csv("WHO_THE.csv")
 raw.data.WHO.GDP <- read.csv2("API_NY.GDP.PCAP.PP.CD_DS2_en_excel_v2.csv", skip=3)
 
 
 names(raw.data.GBD)
-names(raw.data.WHO.WF)
 names(raw.data.WHO.THE)
 names(raw.data.WHO.GDP)
 
 
 head(raw.data.GBD)
-head(raw.data.WHO.WF)
 head(raw.data.WHO.THE)
 head(raw.data.WHO.GDP)
 
 
 dim(raw.data.GBD)
-dim(raw.data.WHO.WF)
 dim(raw.data.WHO.THE)
 dim(raw.data.WHO.GDP)
 
 
-# Data Tables
-attach(raw.data.GBD)
-attach(raw.data.WHO.WF)
-attach(raw.data.WHO.THE)
-attach(raw.data.WHO.GDP)
-
-
 DT.GBD <- data.table(raw.data.GBD)
-DT.WHO.WF <- data.table(raw.data.WHO.WF)
 DT.WHO.THE <- data.table(raw.data.WHO.THE)
 DT.WHO.GDP <- data.table(raw.data.WHO.GDP)
 tables()
@@ -69,6 +57,7 @@ ISO3 <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC
 length(ISO3) == 28
 
 output_year <- "2010"
+# remember to change also the X1990 - X2010 Column
 output_year_THE <- if (output_year == "1990") {
         print("1995")
 } else {
@@ -118,14 +107,12 @@ intermediate.data <- merge(df.merge.1, df.WHO.GDP, all.x=F, all.y=FALSE, by="cou
 intermediate.data
 
 # Years Lived with Disability and THE.GDP
-yld <- intermediate.data$le - intermediate.data$hale
+yld <- round(intermediate.data$le - intermediate.data$hale, 2)
 the.gdp <- round(intermediate.data$the / intermediate.data$gdp *100, 2)
 
 # Tidy Dataset
 tidy.data <- data.frame(intermediate.data, yld, the.gdp)
 tidy.data
-
-attach(tidy.data)
 
 # Saving Tidy Dataset to .csv file
 file_name <- paste("Output_EU_", output_year, ".csv", sep="" )
