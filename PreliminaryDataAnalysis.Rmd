@@ -390,17 +390,26 @@ estBetaParams(mu, var)
 
 y=function (x) dbeta(x,estBetaParams(mu, var)$alpha
 ,estBetaParams(mu, var)$beta)
-curve(y, from=0, to=1.5, col="blue", yaxp = c(0, 3.5, 10), axes=F, lwd=2, ylim=c(0,3), xlab="VALUEe", ylab = "Frequency")
+curve(y, from=0, to=1.5, col="blue", axes=F, lwd=2, xlab="VALUEe", ylab = "")
 axis(1)
 axis(1, at=round(qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), 2))
 axis(1, at=round(qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), 2))
-axis(2)
 lines(density(X), col="skyblue", lwd=2) 
-abline(v=qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), lty=2)
-abline(v=qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), lty=2)
-abline(v=mean(df.sust.EU$VALUEe), col="blue")
+abline(v=qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), lty=3)
+abline(v=qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), lty=3)
+abline(v=mean(df.sust.EU$VALUEe), col="black", lty=4)
 abline(v=df.sust.ID$VALUEe.ID, col="red")
-legend(.8, 2.5, c(paste("EU mean=", round(mean(X),2)),paste("EU 95% CI=", round(qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),2),"-", round(qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),2)), paste(ID,"=", round(df.sust.ID$VALUEe.ID, 2))), col=c("blue", "black", "red"), bty="n", y.intersp=1.5, lty=c(1,2, 1), cex = 1, lwd=1)
+legend(.8, 2.5, c("Density","Beta Distribution",paste("EU mean=", round(mean(X),2)),paste("EU 95% CI=", round(qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),2),"-", round(qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),2)), paste(ID,"=", round(df.sust.ID$VALUEe.ID, 2))), col=c("skyblue", "blue", "blue", "black", "red"), bty="n", y.intersp=1.5, lty=c(1,1,4,3, 1), cex = 1, lwd=1)
+
+```
+
+
+# Write files to excel for export to ppt
+```{r}
+require(xlsx)
+write.xlsx(df.EU.1990, "df.EU.xlsx", sheetName="1990")
+write.xlsx(df.EU.2010, "df.EU.xlsx", sheetName="2010", append=TRUE)
+write.xlsx(df.sust.EU, "df.EU.xlsx", sheetName="DELTA-EPSILON", append=TRUE)
 
 ```
 
