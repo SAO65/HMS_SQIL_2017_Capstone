@@ -44,8 +44,8 @@ df.EU.2010
 df.ROW.1990
 df.ROW.2010
 
-ID.ROW.1 <- "JPN"
-ID.ROW.2 <- "USA"
+ID.ROW <- "JPN"
+ID.EU <- "ITA"
 
 # Constant Scale in Graphs
 
@@ -72,15 +72,15 @@ points(df.EU.1990$hale, df.EU.1990$yld, col="blue", pch = 16, cex = 1.3, lty = "
 
 points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
+points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
 
 axis(1, at=c(round(min(df.EU.1990$hale), 1), round(median(df.EU.1990$hale), 1), round(max(df.EU.1990$hale), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
 
-axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
+axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
 
 axis(2, at=c(round(min(df.EU.1990$yld), 1), round(median(df.EU.1990$yld), 1), round(max(df.EU.1990$yld), 1)), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
 
-axis(4, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
+axis(4, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
 
 axis(3, at=c(round(min(df.EU.2010$hale), 1), round(median(df.EU.2010$hale), 1), round(max(df.EU.2010$hale), 1)), col.axis="red", col="red",las=2, cex.axis=0.7,  tick=-.01)
 
@@ -89,9 +89,9 @@ axis(4, at=c(round(min(df.EU.2010$yld), 1), round(median(df.EU.2010$yld), 1), ro
 legend(30, 15, c("EU 1990","EU 2010","ROW 1990", "ROW 2010"), col=c("blue", "red", "grey", "darkslategrey"), bty="n", y.intersp=1.5, pch=c(16,16,16,16), cex = 1)
 
 
-text(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1]+.3, labels=paste(ID.ROW.1, ""), cex= .8, pos=4, offset = .2)
+text(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW]+.3, labels=paste(ID.ROW, ""), cex= .8, pos=4, offset = .2)
 
-abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
+abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], lty=1, lwd=1)
 
 ID.min = df.ROW.2010$country[df.ROW.2010$yld == min(df.ROW.2010$yld)]
 ID.min
@@ -116,27 +116,27 @@ plot(df.EU.1990$hale, df.EU.1990$yld, xlab="Health Adjusted Life Expectancy at B
 
 points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.ROW.1990$hale[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.1990$hale[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.2010$hale[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
 
 axis(1, at=c(round(min(df.EU.1990$hale), 1), round(median(df.EU.1990$hale), 1), round(max(df.EU.1990$hale), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
 
-axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
+axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
 
 axis(2, at=c(round(min(df.EU.1990$yld), 1), round(median(df.EU.1990$yld), 1), round(max(df.EU.1990$yld), 1)), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
 
-axis(4, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
+axis(4, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
 
 axis(3, at=c(round(min(df.EU.2010$hale), 1), round(median(df.EU.2010$hale), 1), round(max(df.EU.2010$hale), 1)), col.axis="red", col="red",las=2, cex.axis=0.7,  tick=-.01)
 
 axis(4, at=c(round(min(df.EU.2010$yld), 1), round(median(df.EU.2010$yld), 1), round(max(df.EU.2010$yld), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
 
-legend(30, 15, c("EU 1990","EU 2010","USA 1990", "USA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
+legend(30, 15, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
 
-points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
+points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
 
-abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
+abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], lty=1, lwd=1)
 
 
 fun.EU.1990 <- lm(df.EU.1990$yld ~ df.EU.1990$hale)
@@ -162,15 +162,15 @@ plot(df.EU.1990$le, df.EU.1990$the, xlab="Life Expectancy at Birth", ylab="Per C
 
 points(df.EU.2010$le, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.ROW.1990$le[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$the[df.ROW.1990$country == ID.ROW.2],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$the[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.2],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$the[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
 
-legend(65, 7000, c("EU 1990","EU 2010","USA 1990", "USA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
+legend(65, 7000, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
 
 axis(1, at=c(round(min(df.EU.1990$le), 1), round(median(df.EU.1990$le), 1), round(max(df.EU.1990$le), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
 
-axis(3, at=round(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
+axis(3, at=round(df.ROW.2010$le[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
 
 
 low.the.1990 <- round(min(df.EU.1990$the), 0)
@@ -184,129 +184,21 @@ axis(3, at=c(round(min(df.EU.2010$le), 1), round(median(df.EU.2010$le), 1), roun
 low.the.2010 <- round(min(df.EU.2010$the), 0)
 median.the.2010 <- round(median(df.EU.2010$the), 0)
 high.the.2010 <- round(max(df.EU.2010$the), 0)
-japan.the.2010 <- round(df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], 1)
+japan.the.2010 <- round(df.ROW.2010$the[df.ROW.2010$country == ID.ROW], 1)
 
 axis(4, at=c(low.the.2010,median.the.2010, high.the.2010), col.axis="red", col="red",las=2, cex.axis=0.7, tick=-.01)
 
 axis(4, at=japan.the.2010, col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
 
-points(df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
+points(df.ROW.2010$le[df.ROW.2010$country == ID.ROW], df.ROW.2010$the[df.ROW.2010$country == ID.ROW], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
 
-abline(h=df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$le[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
+abline(h=df.ROW.2010$the[df.ROW.2010$country == ID.ROW], v=df.ROW.2010$le[df.ROW.2010$country == ID.ROW], lty=1, lwd=1)
 
 
 fun.EU.1990 <- lm(df.EU.1990$the ~ df.EU.1990$le)
 abline(fun.EU.1990, lty = 2, col="blue", lwd=1.5)
 
 fun.EU.2010 <- lm(df.EU.2010$the ~ df.EU.2010$le)
-abline(fun.EU.2010, lty = 2, col="red", lwd=1.5)
-
-summary(fun.EU.1990)
-summary(fun.EU.2010)
-
-confint(fun.EU.1990)
-confint(fun.EU.2010)
-
-```
-
-```{r}
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.EU.1990$hale, df.EU.1990$the, xlab="Health Adjusted Life Expectancy at Birth", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.hale, ylim=lim.the, axes=FALSE, frame.plot=FALSE)
-
-points(df.EU.2010$hale, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.1990$hale[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$the[df.ROW.1990$country == ID.ROW.2],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.2],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
-
-legend(55, 7000, c("EU 1990","EU 2010","USA 1990", "USA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
-
-axis(1, at=c(round(min(df.EU.1990$hale), 1), round(median(df.EU.1990$hale), 1), round(max(df.EU.1990$hale), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
-
-axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
-
-
-low.the.1990 <- round(min(df.EU.1990$the), 0)
-median.the.1990 <- round(median(df.EU.1990$the), 0)
-high.the.1990 <- round(max(df.EU.1990$the), 0)
-
-axis(2, at=c(low.the.1990,median.the.1990, high.the.1990), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
-
-axis(3, at=c(round(min(df.EU.2010$hale), 1), round(median(df.EU.2010$hale), 1), round(max(df.EU.2010$hale), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
-
-low.the.2010 <- round(min(df.EU.2010$the), 0)
-median.the.2010 <- round(median(df.EU.2010$the), 0)
-high.the.2010 <- round(max(df.EU.2010$the), 0)
-japan.the.2010 <- round(df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], 1)
-
-axis(4, at=c(low.the.2010,median.the.2010, high.the.2010), col.axis="red", col="red",las=2, cex.axis=0.7, tick=-.01)
-
-axis(4, at=japan.the.2010, col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
-
-points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
-
-abline(h=df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
-
-
-fun.EU.1990 <- lm(df.EU.1990$the ~ df.EU.1990$hale)
-abline(fun.EU.1990, lty = 2, col="blue", lwd=1.5)
-
-fun.EU.2010 <- lm(df.EU.2010$the ~ df.EU.2010$hale)
-abline(fun.EU.2010, lty = 2, col="red", lwd=1.5)
-
-summary(fun.EU.1990)
-summary(fun.EU.2010)
-
-confint(fun.EU.1990)
-confint(fun.EU.2010)
-
-```
-
-```{r}
-par(mar=c(5, 4, 4, 5) + 0.1)
-
-plot(df.EU.1990$yld, df.EU.1990$the, xlab="Years Lived with Disease", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.yld, ylim=lim.the, axes=FALSE, frame.plot=FALSE)
-
-points(df.EU.2010$yld, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.1990$yld[df.ROW.1990$country == ID.ROW.2], df.ROW.1990$the[df.ROW.1990$country == ID.ROW.2],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.2], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.2],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
-
-legend(8, 7000, c("EU 1990","EU 2010","USA 1990", "USA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
-
-axis(1, at=c(round(min(df.EU.1990$yld), 1), round(median(df.EU.1990$yld), 1), round(max(df.EU.1990$yld), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
-
-axis(3, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], 2), col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
-
-
-low.the.1990 <- round(min(df.EU.1990$the), 0)
-median.the.1990 <- round(median(df.EU.1990$the), 0)
-high.the.1990 <- round(max(df.EU.1990$the), 0)
-
-axis(2, at=c(low.the.1990,median.the.1990, high.the.1990), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
-
-axis(3, at=c(round(min(df.EU.2010$yld), 1), round(median(df.EU.2010$yld), 1), round(max(df.EU.2010$yld), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
-
-low.the.2010 <- round(min(df.EU.2010$the), 0)
-median.the.2010 <- round(median(df.EU.2010$the), 0)
-high.the.2010 <- round(max(df.EU.2010$the), 0)
-japan.the.2010 <- round(df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], 1)
-
-axis(4, at=c(low.the.2010,median.the.2010, high.the.2010), col.axis="red", col="red",las=2, cex.axis=0.7, tick=-.01)
-
-axis(4, at=japan.the.2010, col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
-
-points(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
-
-abline(h=df.ROW.2010$the[df.ROW.2010$country == ID.ROW.1], v=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW.1], lty=1, lwd=1)
-
-
-fun.EU.1990 <- lm(df.EU.1990$the ~ df.EU.1990$yld)
-abline(fun.EU.1990, lty = 2, col="blue", lwd=1.5)
-
-fun.EU.2010 <- lm(df.EU.2010$the ~ df.EU.2010$yld)
 abline(fun.EU.2010, lty = 2, col="red", lwd=1.5)
 
 summary(fun.EU.1990)
@@ -342,45 +234,13 @@ print(df.sust.EU, row.names = F)
 
 (ID.EU.Value <- df.sust.EU$Country[df.sust.EU$VALUEe == max(df.sust.EU$VALUEe)])
 
-ID <- "USA"
-# ID <- "JPN"
-
-DELTA_HALE.ID <- (df.ROW.2010$hale[df.ROW.2010$country == ID] - df.ROW.1990$hale[df.ROW.1990$country == ID]) / (df.ROW.1990$hale[df.ROW.1990$country == ID]) * 100
-
-DELTA_YLD.ID <- (df.ROW.2010$yld[df.ROW.2010$country == ID] - df.ROW.1990$yld[df.ROW.1990$country == ID]) / (df.ROW.1990$yld[df.ROW.1990$country == ID])* 100
-
-DELTA_THE.ID <- (df.ROW.2010$the[df.ROW.2010$country == ID] - df.ROW.1990$the[df.ROW.1990$country == ID]) / (df.ROW.1990$the[df.ROW.1990$country == ID])* 100
-
-DELTA_GDP.ID <- (df.ROW.2010$gdp[df.ROW.2010$country == ID] - df.ROW.1990$gdp[df.ROW.1990$country == ID]) / (df.ROW.1990$gdp[df.ROW.1990$country == ID])* 100
-
-QUALITYe.ID <- DELTA_HALE.ID / DELTA_YLD.ID
-
-COSTe.ID <- DELTA_THE.ID / DELTA_GDP.ID
-
-VALUEe.ID <- QUALITYe.ID /  COSTe.ID
-
-df.sust.ID <- data.frame(DELTA_HALE.ID,DELTA_YLD.ID, QUALITYe.ID, DELTA_THE.ID,DELTA_GDP.ID, COSTe.ID, VALUEe.ID)
-
-df.sust.ID
-
 ```
 
 ```{r}
-
 X <- df.sust.EU$VALUEe
+XX <- df.sust.EU$VALUEe[df.sust.EU$Country == ID.EU]
 
-hist(X, prob=TRUE, col="skyblue", border="black", las=1, axes=F, breaks=5, xlim=c(0,1), ylim=c(0,3))
-axis(1)
-axis(2)
-lines(density(X), col="blue", lwd=2) 
-lines(density(X, adjust=2), lty="dotted", col="black", lwd=2)
-abline(v=mean(X), col="red", lwd=1)
-abline(v=median(X), col="black", lty=1, lwd=1)
-legend(.5, .5, c(paste("mean=", round(mean(X),2)),paste("median=", round(median(X),2))), col=c("red", "black"), bty="n", y.intersp=1.5, lty=c(1,1), cex = 1, lwd=1)
-summary(X)
-
-
-mu=mean(df.sust.EU$VALUEe); var=var(df.sust.EU$VALUEe)
+mu=mean(X); var=var(X)
 estBetaParams <- function(mu, var) {
   alpha <- ((1 - mu) / var - 1 / mu) * mu ^ 2
   beta <- alpha * (1 / mu - 1)
@@ -390,19 +250,29 @@ estBetaParams(mu, var)
 
 y=function (x) dbeta(x,estBetaParams(mu, var)$alpha
 ,estBetaParams(mu, var)$beta)
-curve(y, from=0, to=1.5, col="blue", axes=F, lwd=2, xlab="VALUEe", ylab = "")
+curve(y, from=0, to=1.5, col="blue", axes=F, lwd=2, xlab="VALUEe", ylab = "", ylim=c(0,3))
 axis(1)
 axis(1, at=round(qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), 2))
 axis(1, at=round(qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), 2))
-lines(density(X), col="skyblue", lwd=2) 
+axis(2)
+lines(density(X), col="skyblue", lwd=2)
 abline(v=qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), lty=3)
 abline(v=qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), lty=3)
-abline(v=mean(df.sust.EU$VALUEe), col="black", lty=4)
-abline(v=df.sust.ID$VALUEe.ID, col="red")
-legend(.8, 2.5, c("Density","Beta Distribution",paste("EU mean=", round(mean(X),2)),paste("EU 95% CI=", round(qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),2),"-", round(qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),2)), paste(ID,"=", round(df.sust.ID$VALUEe.ID, 2))), col=c("skyblue", "blue", "blue", "black", "red"), bty="n", y.intersp=1.5, lty=c(1,1,4,3, 1), cex = 1, lwd=1)
+abline(v=mean(X), col="black", lty=4)
+abline(v=XX, col="red")
+legend(.8, 2.5, c("Density","Beta Distribution",paste("EU mean=", round(mean(X),2)),paste("EU 95% CI=", round(qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),3),"-", round(qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),3)), paste(ID.EU,"=", round(XX, 3))), col=c("skyblue", "blue", "blue", "black", "red"), bty="n", y.intersp=1.5, lty=c(1,1,4,3, 1), cex = 1, lwd=1)
 
 ```
 
+
+```{r}
+dbeta(x,estBetaParams(mu, var)$alpha, estBetaParams(mu, var)$beta)
+
+round(pbeta(.5,estBetaParams(mu, var)$alpha, estBetaParams(mu, var)$beta, lower.tail=F), 2)
+
+round(pbeta(.5,estBetaParams(mu, var)$alpha, estBetaParams(mu, var)$beta, lower.tail=T), 2)
+
+```
 
 # Write files to excel for export to ppt
 ```{r}
@@ -412,4 +282,6 @@ write.xlsx(df.EU.2010, "df.EU.xlsx", sheetName="2010", append=TRUE)
 write.xlsx(df.sust.EU, "df.EU.xlsx", sheetName="DELTA-EPSILON", append=TRUE)
 
 ```
+
+
 
