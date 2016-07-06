@@ -327,7 +327,17 @@ for (i in 1:nrow(df.sust.EU)) {
 
 df.sust.EU
 
-with(df.sust.EU, CrossTable(Sustainability, Quality))
+with(df.sust.EU, CrossTable(Sustainability, Quality, expected=T, digits=2, format = "SPSS"))
+
+library(ReporteRs)
+MyFTable <- vanilla.table(df.sust.EU)
+MyFTable <- setFlexTableWidths( MyFTable, widths = c(3, 1, 0.5, rep(0.7, 6) ) )
+MyFTable = setZebraStyle( MyFTable, odd = '#eeeeee', even = 'white' )
+MyFTable
+mydoc <- docx()
+mydoc <- addFlexTable(mydoc, flextable = MyFTable)
+writeDoc(mydoc, file = "MyFTable.docx")
+
 
 ```
 
