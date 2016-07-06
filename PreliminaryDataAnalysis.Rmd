@@ -53,6 +53,7 @@ lim.le <- c(30, 85)
 lim.yld <- c(4, 15)
 lim.hale <- c(30, 85)
 lim.the <- c(100, 8500)
+lim.gdp <- c(1000, 87500)
 
 ```
 
@@ -86,22 +87,13 @@ axis(3, at=c(round(min(df.EU.2010$hale), 1), round(median(df.EU.2010$hale), 1), 
 
 axis(4, at=c(round(min(df.EU.2010$yld), 1), round(median(df.EU.2010$yld), 1), round(max(df.EU.2010$yld), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
 
-legend(30, 15, c("EU 1990","EU 2010","ROW 1990", "ROW 2010"), col=c("blue", "red", "grey", "darkslategrey"), bty="n", y.intersp=1.5, pch=c(16,16,16,16), cex = 1)
+legend(30, 15, c("EU 1990","EU 2010","ROW 1990", "ROW 2010"), col=c("blue", "red", "grey", "darkslategrey"), bty="n", y.intersp=1.5, pch=c(16,16,16,16), cex = .75)
 
 
 text(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW]+.3, labels=paste(ID.ROW, ""), cex= .8, pos=4, offset = .2)
 
 abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], lty=1, lwd=1)
 
-ID.min = df.ROW.2010$country[df.ROW.2010$yld == min(df.ROW.2010$yld)]
-ID.min
-
-ID.max = df.ROW.2010$country[df.ROW.2010$yld == max(df.ROW.2010$yld)]
-ID.max
-
-text(df.ROW.2010$hale[df.ROW.2010$country == ID.min], df.ROW.2010$yld[df.ROW.2010$country == ID.min]+.2, labels=ID.min, cex= .8, pos=4, offset = .2)
-
-text(df.ROW.2010$hale[df.ROW.2010$country == ID.max], df.ROW.2010$yld[df.ROW.2010$country == ID.max]+.2, labels=ID.max, cex= .8, pos=4, offset = .2)
 
 ```
 
@@ -132,7 +124,7 @@ axis(3, at=c(round(min(df.EU.2010$hale), 1), round(median(df.EU.2010$hale), 1), 
 
 axis(4, at=c(round(min(df.EU.2010$yld), 1), round(median(df.EU.2010$yld), 1), round(max(df.EU.2010$yld), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
 
-legend(30, 15, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
+legend(30, 15, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = .75)
 
 points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
 
@@ -153,7 +145,7 @@ confint(fun.EU.2010)
 
 
 
-# Expansion of Health Expenditure EU: 1990-2010
+# Growth of Health Expenditure EU: 1990-2010
 
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
@@ -166,7 +158,7 @@ points(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$the[df.EU.1990$cou
 
 points(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$the[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
 
-legend(65, 7000, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = 1)
+legend(35, 7000, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = .75)
 
 axis(1, at=c(round(min(df.EU.1990$le), 1), round(median(df.EU.1990$le), 1), round(max(df.EU.1990$le), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
 
@@ -209,6 +201,62 @@ confint(fun.EU.2010)
 
 ```
 
+# Expansion of Health Expenditure EU: 1990-2010
+
+```{r}
+par(mar=c(5, 4, 4, 5) + 0.1)
+
+plot(df.EU.1990$gdp, df.EU.1990$the, xlab="Per Capita Gross Domestic Product", ylab="Per Capita Total Health Expenditure", col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.gdp, ylim=lim.the, axes=FALSE, frame.plot=FALSE)
+
+points(df.EU.2010$gdp, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
+
+points(df.EU.1990$gdp[df.EU.1990$country == ID.EU], df.EU.1990$the[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
+
+points(df.EU.2010$gdp[df.EU.2010$country == ID.EU], df.EU.2010$the[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
+
+legend(1000, 7000, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = .75)
+
+axis(1, at=c(round(min(df.EU.1990$gdp), 1), round(median(df.EU.1990$gdp), 1), round(max(df.EU.1990$gdp), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
+
+axis(3, at=round(df.ROW.2010$gdp[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
+
+
+low.the.1990 <- round(min(df.EU.1990$the), 0)
+median.the.1990 <- round(median(df.EU.1990$the), 0)
+high.the.1990 <- round(max(df.EU.1990$the), 0)
+
+axis(2, at=c(low.the.1990,median.the.1990, high.the.1990), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
+
+axis(3, at=c(round(min(df.EU.2010$gdp), 1), round(median(df.EU.2010$gdp), 1), round(max(df.EU.2010$gdp), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
+
+low.the.2010 <- round(min(df.EU.2010$the), 0)
+median.the.2010 <- round(median(df.EU.2010$the), 0)
+high.the.2010 <- round(max(df.EU.2010$the), 0)
+japan.the.2010 <- round(df.ROW.2010$the[df.ROW.2010$country == ID.ROW], 1)
+
+axis(4, at=c(low.the.2010,median.the.2010, high.the.2010), col.axis="red", col="red",las=2, cex.axis=0.7, tick=-.01)
+
+axis(4, at=japan.the.2010, col.axis="black", col="black",las=2, cex.axis=0.7, tick=-.01)
+
+points(df.ROW.2010$gdp[df.ROW.2010$country == ID.ROW], df.ROW.2010$the[df.ROW.2010$country == ID.ROW], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
+
+abline(h=df.ROW.2010$the[df.ROW.2010$country == ID.ROW], v=df.ROW.2010$gdp[df.ROW.2010$country == ID.ROW], lty=1, lwd=1)
+
+
+fun.EU.1990 <- lm(df.EU.1990$the ~ df.EU.1990$gdp)
+abline(fun.EU.1990, lty = 2, col="blue", lwd=1.5)
+
+fun.EU.2010 <- lm(df.EU.2010$the ~ df.EU.2010$gdp)
+abline(fun.EU.2010, lty = 2, col="red", lwd=1.5)
+
+summary(fun.EU.1990)
+summary(fun.EU.2010)
+
+confint(fun.EU.1990)
+confint(fun.EU.2010)
+
+```
+
 
 # Sustainable Quality EU
 
@@ -228,60 +276,63 @@ df.sust.EU$DELTA_GDP <- round((df.EU.2010$gdp - df.EU.1990$gdp) / df.EU.1990$gdp
 
 df.sust.EU$COSTe <- round(df.sust.EU$DELTA_THE / df.sust.EU$DELTA_GDP, 3)
 
-df.sust.EU$VALUEe <- round(df.sust.EU$QUALITYe / df.sust.EU$COSTe, 3)
-
 print(df.sust.EU, row.names = F)
 
-(ID.EU.Value <- df.sust.EU$Country[df.sust.EU$VALUEe == max(df.sust.EU$VALUEe)])
+plot(density(df.sust.EU$QUALITYe), main="Sustainable Quality", col="blue", lty=1, axes=F, lwd=2, xlab="QUALITYe, COSTe", ylab = "Frequency", ylim=c(0,3), xlim=c(0,2.5))
+lines(density(df.sust.EU$COSTe), col="red", lty=1, lwd=2)
 
-```
-
-
-QUALITYe
-
-```{r}
-X <- df.sust.EU$VALUEe
-XX <- df.sust.EU$VALUEe[df.sust.EU$Country == ID.EU]
-
-mu=mean(X); var=var(X)
-mu
-var
-estBetaParams <- function(mu, var) {
-  alpha <- ((1 - mu) / var - 1 / mu) * mu ^ 2
-  beta <- alpha * (1 / mu - 1)
-  return(params = list(alpha = alpha, beta = beta))
-}
-estBetaParams(mu, var)
-
-y=function (x) dbeta(x,estBetaParams(mu, var)$alpha
-,estBetaParams(mu, var)$beta)
-curve(y, from=0, to=1.5, col="blue", axes=F, lwd=2, xlab="VALUEe", ylab = "", ylim=c(0,3))
 axis(1)
-axis(1, at=round(qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), 2))
-axis(1, at=round(qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), 2))
 axis(2)
 
-lines(density(df.sust.EU$VALUEe), col="skyblue", lwd=2)
-lines(density(df.sust.EU$QUALITYe), col="black", lwd=2)
-lines(density(df.sust.EU$COSTe), col="slategrey", lwd=2)
+abline(v=mean(df.sust.EU$QUALITYe), lty=1, col="blue", lwd=1)
+abline(v=mean(df.sust.EU$QUALITYe[df.sust.EU$Country == ID.EU]), lty=4, col="blue", lwd=1)
 
-abline(v=qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), lty=3)
-abline(v=qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta), lty=3)
-abline(v=mean(X), col="black", lty=4)
-abline(v=XX, col="red")
-legend(.8, 2.5, c("Density","Beta Distribution",paste("EU mean=", round(mean(X),2)),paste("EU 95% CI=", round(qbeta(.025,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),3),"-", round(qbeta(.975,estBetaParams(mu, var)$alpha,estBetaParams(mu, var)$beta),3)), paste(ID.EU,"=", round(XX, 3))), col=c("skyblue", "blue", "blue", "black", "red"), bty="n", y.intersp=1.5, lty=c(1,1,4,3, 1), cex = 1, lwd=1)
+abline(v=mean(df.sust.EU$COSTe), lty=1, col="red",  lwd=1)
+abline(v=mean(df.sust.EU$COSTe[df.sust.EU$Country == ID.EU]), lty=4, col="red", lwd=1)
+
+abline(v=1, lty=1, col="black",  lwd=2)
+
+legend(1.65, 2.5, c("Density QUALITYe","Density COSTe", 
+                   paste("EU QUALITYe =",round(mean(df.sust.EU$QUALITYe),2)) , 
+                   paste("EU COSTe =",round(mean(df.sust.EU$COSTe),2)) ,
+                   paste("Italy QUALITYe =",round(mean(df.sust.EU$QUALITYe[df.sust.EU$Country == ID.EU]),2)),
+                   paste("Italy COSTe =",round(mean(df.sust.EU$COSTe[df.sust.EU$Country == ID.EU]),2))), 
+       col=c("blue", "red", "blue", "red", "blue", "red"), 
+       bty="n", 
+       y.intersp=1.5, 
+       lty=c(1,1,1,1,4,4), 
+       cex = .75,
+       lwd=2)
 
 ```
 
 
 ```{r}
-dbeta(x,estBetaParams(mu, var)$alpha, estBetaParams(mu, var)$beta)
+library(gmodels)
 
-round(pbeta(.5,estBetaParams(mu, var)$alpha, estBetaParams(mu, var)$beta, lower.tail=F), 2)
+for (i in 1:nrow(df.sust.EU)) {
+        if (df.sust.EU$COSTe[i] > 1){
+                df.sust.EU$Sustainability[i]="NS"
+        }
+        if (df.sust.EU$COSTe[i] <= 1){
+                df.sust.EU$Sustainability[i]="S"
+        }
+        if (df.sust.EU$QUALITYe[i] >= 1){
+                df.sust.EU$Quality[i]="Q"
+        }
+        if (df.sust.EU$QUALITYe[i] < 1){
+                df.sust.EU$Quality[i]="NQ"
+        }
+}       
 
-round(pbeta(.5,estBetaParams(mu, var)$alpha, estBetaParams(mu, var)$beta, lower.tail=T), 2)
+df.sust.EU
+
+with(df.sust.EU, CrossTable(Sustainability, Quality))
 
 ```
+
+
+
 
 # Write files to excel for export to ppt
 ```{r}
