@@ -64,24 +64,23 @@ lim.gdp <- c(1000, 87500)
 ```{r}
 par(mar=c(5, 4, 4, 5) + 0.1)
 
-plot(df.ROW.1990$hale, df.ROW.1990$yld, xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", type="p", col="grey", pch = 16, cex = 1.3, lty = "solid", lwd = 2, xlim=lim.hale, ylim=lim.yld, axes=FALSE, frame.plot=FALSE)
+plot(df.ROW.1990$hale, df.ROW.1990$yld, xlab="Health Adjusted Life Expectancy at Birth (hale)", ylab="Years Lived with Disease (YLD)", type="p", col="grey", pch = 16, cex = 1, lty = "solid", lwd = 2, xlim=lim.hale, ylim=lim.yld, axes=FALSE, frame.plot=FALSE)
 
-points(df.ROW.2010$hale, df.ROW.2010$yld, col="darkslategrey", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
+points(df.ROW.2010$hale, df.ROW.2010$yld, col="darkslategrey", pch = 16, cex = 1, lty = "solid", lwd = 2)
 
+points(df.EU.1990$hale, df.EU.1990$yld, col="blue", pch = 16, cex = 1, lty = "solid", lwd = 2)
 
-points(df.EU.1990$hale, df.EU.1990$yld, col="blue", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1, lty = "solid", lwd = 2)
 
-points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
-
-points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], col="black", pch = 8, cex = 1.3, lty = "solid", lwd = 2)
+points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], col="black", pch = 8, cex = 1, lty = "solid", lwd = 2)
 
 axis(1, at=c(round(min(df.EU.1990$hale), 1), round(median(df.EU.1990$hale), 1), round(max(df.EU.1990$hale), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
 
-axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
+axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.5,  tick=-.01)
 
 axis(2, at=c(round(min(df.EU.1990$yld), 1), round(median(df.EU.1990$yld), 1), round(max(df.EU.1990$yld), 1)), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
 
-axis(4, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.7,  tick=-.01)
+axis(4, at=round(df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.5,  tick=-.01)
 
 axis(3, at=c(round(min(df.EU.2010$hale), 1), round(median(df.EU.2010$hale), 1), round(max(df.EU.2010$hale), 1)), col.axis="red", col="red",las=2, cex.axis=0.7,  tick=-.01)
 
@@ -94,7 +93,15 @@ text(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.201
 
 abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], lty=1, lwd=1)
 
+fun.EU.1990 <- lm(df.EU.1990$yld ~ df.EU.1990$hale)
+abline(fun.EU.1990, lty = 2, col="blue", lwd=1.5)
+summary(fun.EU.1990)
+confint(fun.EU.1990)
 
+fun.EU.2010 <- lm(df.EU.2010$yld ~ df.EU.2010$hale)
+abline(fun.EU.2010, lty = 2, col="red", lwd=1.5)
+summary(fun.EU.2010)
+confint(fun.EU.2010)
 ```
 
 
@@ -108,9 +115,9 @@ plot(df.EU.1990$hale, df.EU.1990$yld, xlab="Health Adjusted Life Expectancy at B
 
 points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.EU.1990$hale[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.1990$hale[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 4)
 
-points(df.EU.2010$hale[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.2010$hale[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 4)
 
 axis(1, at=c(round(min(df.EU.1990$hale), 1), round(median(df.EU.1990$hale), 1), round(max(df.EU.1990$hale), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
 
@@ -154,9 +161,9 @@ plot(df.EU.1990$le, df.EU.1990$the, xlab="Life Expectancy at Birth", ylab="Per C
 
 points(df.EU.2010$le, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$the[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.1990$le[df.EU.1990$country == ID.EU], df.EU.1990$the[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 4)
 
-points(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$the[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.2010$le[df.EU.2010$country == ID.EU], df.EU.2010$the[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 4)
 
 legend(35, 7000, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = .75)
 
@@ -210,9 +217,9 @@ plot(df.EU.1990$gdp, df.EU.1990$the, xlab="Per Capita Gross Domestic Product", y
 
 points(df.EU.2010$gdp, df.EU.2010$the,  col="red", pch = 16, cex = 1.3, lty = "solid", lwd = 2)
 
-points(df.EU.1990$gdp[df.EU.1990$country == ID.EU], df.EU.1990$the[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.1990$gdp[df.EU.1990$country == ID.EU], df.EU.1990$the[df.EU.1990$country == ID.EU],  col="black", pch = 5, cex = 1.3, lty = "solid", lwd = 4)
 
-points(df.EU.2010$gdp[df.EU.2010$country == ID.EU], df.EU.2010$the[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 2)
+points(df.EU.2010$gdp[df.EU.2010$country == ID.EU], df.EU.2010$the[df.EU.2010$country == ID.EU],  col="black", pch = 9, cex = 1.3, lty = "solid", lwd = 4)
 
 legend(1000, 7000, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = .75)
 
@@ -279,16 +286,26 @@ df.sust.EU$COSTe <- round(df.sust.EU$DELTA_THE / df.sust.EU$DELTA_GDP, 3)
 print(df.sust.EU, row.names = F)
 
 plot(density(df.sust.EU$QUALITYe), main="Sustainable Quality", col="blue", lty=1, axes=F, lwd=2, xlab="QUALITYe, COSTe", ylab = "Frequency", ylim=c(0,3), xlim=c(0,2.5))
+
 lines(density(df.sust.EU$COSTe), col="red", lty=1, lwd=2)
+
+curve(dnorm(x, mean(df.sust.EU$QUALITYe), sd(df.sust.EU$QUALITYe)),
+      mean(df.sust.EU$QUALITYe) - 1.96 * sd(df.sust.EU$QUALITYe),
+      mean(df.sust.EU$QUALITYe) + 1.96 * sd(df.sust.EU$QUALITYe),
+      add=T,col="blue")
+
+curve(dnorm(x, mean(df.sust.EU$COSTe), sd(df.sust.EU$COSTe)),
+       mean(df.sust.EU$COSTe) - 1.96 * sd(df.sust.EU$COSTe),
+      mean(df.sust.EU$COSTe) + 1.96 * sd(df.sust.EU$COSTe),
+      add=T,col="red")
+
 
 axis(1)
 axis(2)
 
-abline(v=mean(df.sust.EU$QUALITYe), lty=1, col="blue", lwd=1)
-abline(v=mean(df.sust.EU$QUALITYe[df.sust.EU$Country == ID.EU]), lty=4, col="blue", lwd=1)
+abline(v=df.sust.EU$QUALITYe[df.sust.EU$Country == ID.EU], lty=4, col="blue", lwd=1)
 
-abline(v=mean(df.sust.EU$COSTe), lty=1, col="red",  lwd=1)
-abline(v=mean(df.sust.EU$COSTe[df.sust.EU$Country == ID.EU]), lty=4, col="red", lwd=1)
+abline(v=df.sust.EU$COSTe[df.sust.EU$Country == ID.EU], lty=4, col="red", lwd=1)
 
 abline(v=1, lty=1, col="black",  lwd=2)
 
@@ -303,6 +320,14 @@ legend(1.65, 2.5, c("Density QUALITYe","Density COSTe",
        lty=c(1,1,1,1,4,4), 
        cex = .75,
        lwd=2)
+
+```
+
+
+```{r}
+library(plotly)
+p <- plot_ly(x = c(1, 2, 3, 4), y = c(0, 2, 3, 5), fill = "tozeroy")
+add_trace(p, x = c(1, 2, 3, 4), y = c(3, 5, 1, 7), fill = "tonexty")
 
 ```
 
