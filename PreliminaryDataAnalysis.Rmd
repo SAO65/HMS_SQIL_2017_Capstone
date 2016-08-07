@@ -319,7 +319,6 @@ confint(fun.EU.2010)
 
 
 
-```{r}
 library(plotly)
 
 # plot_ly(df.ROW.2010, x = hale, y = yld, text = paste("THE as % of GDP: ", country, the.gdp),  mode = "markers", color = the.gdp, size = gdp, opacity= gdp, colors = terrain.colors(3))
@@ -332,7 +331,6 @@ plot_ly(df.EU.1990, x = hale, y = yld, mode = "markers", size = the, opacity= th
 
 add_trace(df.EU.2010, x = hale, y = yld, mode = "markers", size = the, opacity= the, name="EU 2010")
 
-```
 
 
 
@@ -355,29 +353,29 @@ df.sust.EU$COSTe <- round(df.sust.EU$DELTA_THE / df.sust.EU$DELTA_GDP, 3)
 
 print(df.sust.EU, row.names = F)
 
-plot(density(df.sust.EU$QUALITYe), main="Sustainable Quality", col="blue", lty=3, axes=F, lwd=2, xlab="QUALITYe, COSTe", ylab = "Frequency", ylim=c(0,3), xlim=c(0,2.5))
+plot(density(df.sust.EU$QUALITYe), main="Sustainable Quality", col="blue", lty=1, axes=F, lwd=1, xlab="QUALITYe, COSTe", ylab = "Frequency", ylim=c(0,3), xlim=c(0,2.5))
 
-lines(density(df.sust.EU$COSTe), col="red", lty=3, lwd=2)
+lines(density(df.sust.EU$COSTe), col="red", lty=1, lwd=1)
 
 curve(dnorm(x, mean(df.sust.EU$QUALITYe), sd(df.sust.EU$QUALITYe)),
       mean(df.sust.EU$QUALITYe) - 1.96 * sd(df.sust.EU$QUALITYe),
       mean(df.sust.EU$QUALITYe) + 1.96 * sd(df.sust.EU$QUALITYe),
-      add=T,col="blue", lwd=2)
+      add=T,col="blue", lty=2, lwd=1)
 
 curve(dnorm(x, mean(df.sust.EU$COSTe), sd(df.sust.EU$COSTe)),
        mean(df.sust.EU$COSTe) - 1.96 * sd(df.sust.EU$COSTe),
       mean(df.sust.EU$COSTe) + 1.96 * sd(df.sust.EU$COSTe),
-      add=T,col="red", lwd=2)
+      add=T,col="red", lty=2, lwd=1)
 
 
 axis(1)
 axis(2)
 
-abline(v=df.sust.EU$QUALITYe[df.sust.EU$Country == ID.EU], lty=1, col="blue", lwd=1)
+abline(v=df.sust.EU$QUALITYe[df.sust.EU$Country == ID.EU], lty=1, col="blue", lwd=1.5)
 
-abline(v=df.sust.EU$COSTe[df.sust.EU$Country == ID.EU], lty=1, col="red", lwd=1)
+abline(v=df.sust.EU$COSTe[df.sust.EU$Country == ID.EU], lty=1, col="red", lwd=1.5)
 
-abline(v=1, lty=1, col="black",  lwd=1)
+abline(v=1, lty=1, col="black",  lwd=1.5)
 
 legend(1.5, 2.5, c("EU Density QUALITYe","EU Density COSTe", 
                    paste("EU Normal QUALITYe mean =",round(mean(df.sust.EU$QUALITYe),2)) , 
@@ -387,9 +385,9 @@ legend(1.5, 2.5, c("EU Density QUALITYe","EU Density COSTe",
        col=c("blue", "red", "blue", "red", "blue", "red"), 
        bty="n", 
        y.intersp=1.5, 
-       lty=c(3,3,1,1,1,1), 
+       lty=c(1,1,2,2,1,1), 
        cex = .75,
-       lwd=c(2,2,1,1,1,1))
+       lwd=c(1,1,1,1,1,1))
 
 ```
 
