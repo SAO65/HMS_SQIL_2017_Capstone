@@ -351,9 +351,11 @@ df.sust.EU$DELTA_GDP <- round((df.EU.2010$gdp - df.EU.1990$gdp) / df.EU.1990$gdp
 
 df.sust.EU$COSTe <- round(df.sust.EU$DELTA_THE / df.sust.EU$DELTA_GDP, 3)
 
+df.sust.EU$VALUEe <- round(df.sust.EU$QUALITYe / df.sust.EU$COSTe, 3)
+
 print(df.sust.EU, row.names = F)
 
-plot(density(df.sust.EU$QUALITYe), main="Sustainable Quality", col="blue", lty=1, axes=F, lwd=1, xlab="QUALITYe, COSTe", ylab = "Frequency", ylim=c(0,3), xlim=c(0,2.5))
+plot(density(df.sust.EU$QUALITYe), main="Sustainable Universal Health Coverage", col="blue", lty=1, axes=F, lwd=1, xlab="QUALITYe, COSTe", ylab = "Frequency", ylim=c(0,3), xlim=c(0,2.5))
 
 lines(density(df.sust.EU$COSTe), col="red", lty=1, lwd=1)
 
