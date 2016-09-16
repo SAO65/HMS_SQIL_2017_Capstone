@@ -74,6 +74,10 @@ points(df.EU.2010$hale, df.EU.2010$yld,  col="red", pch = 16, cex = 1, lty = "so
 
 points(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], col="black", pch = 8, cex = 1, lty = "solid", lwd = 2)
 
+points(df.EU.1990$hale[df.EU.1990$country == ID.EU], df.EU.1990$yld[df.EU.1990$country == ID.EU],  col="green", pch = 9, cex = 1.3, lty = "solid", lwd = 4)
+
+points(df.EU.2010$hale[df.EU.2010$country == ID.EU], df.EU.2010$yld[df.EU.2010$country == ID.EU],  col="yellow", pch = 9, cex = 1.3, lty = "solid", lwd = 4)
+
 axis(1, at=c(round(min(df.EU.1990$hale), 1), round(median(df.EU.1990$hale), 1), round(max(df.EU.1990$hale), 1)), col.axis="blue", col="blue", las=2, cex.axis=0.7,  tick=-.01)
 
 axis(3, at=round(df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], 2), col.axis="black", col="black", las=2, cex.axis=0.5,  tick=-.01)
@@ -86,9 +90,7 @@ axis(3, at=c(round(min(df.EU.2010$hale), 1), round(median(df.EU.2010$hale), 1), 
 
 axis(4, at=c(round(min(df.EU.2010$yld), 1), round(median(df.EU.2010$yld), 1), round(max(df.EU.2010$yld), 1)), col.axis="red", col="red", las=2, cex.axis=0.7, tick=-.01)
 
-legend(30, 15, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "black", "black", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 5, 9, 8), cex = .75)
-
-
+legend(30, 15, c("EU 1990","EU 2010","ITA 1990", "ITA 2010", "JPN 2010"), col=c("blue", "red", "green", "yellow", "black"), bty="n", y.intersp=1.5, pch=c(16,16, 9, 9, 8), cex = .75)
 
 
 abline(h=df.ROW.2010$yld[df.ROW.2010$country == ID.ROW], v=df.ROW.2010$hale[df.ROW.2010$country == ID.ROW], lty=1, lwd=1)
@@ -174,6 +176,7 @@ axis(3, at=round(df.ROW.2010$le[df.ROW.2010$country == ID.ROW], 2), col.axis="bl
 
 low.the.1990 <- round(min(df.EU.1990$the), 0)
 median.the.1990 <- round(median(df.EU.1990$the), 0)
+mad.the.1990 <- round(mad(df.EU.1990$the), 0)
 high.the.1990 <- round(max(df.EU.1990$the), 0)
 
 axis(2, at=c(low.the.1990,median.the.1990, high.the.1990), col.axis="blue", col="blue",las=2, cex.axis=0.7, tick=-.01)
@@ -182,6 +185,7 @@ axis(3, at=c(round(min(df.EU.2010$le), 1), round(median(df.EU.2010$le), 1), roun
 
 low.the.2010 <- round(min(df.EU.2010$the), 0)
 median.the.2010 <- round(median(df.EU.2010$the), 0)
+mad.the.2010 <- round(mad(df.EU.2010$the), 0)
 high.the.2010 <- round(max(df.EU.2010$the), 0)
 japan.the.2010 <- round(df.ROW.2010$the[df.ROW.2010$country == ID.ROW], 1)
 
